@@ -13,5 +13,6 @@ namespace Xkom
     /// </summary>
     public partial class App : Application
     {
+
     }
 }

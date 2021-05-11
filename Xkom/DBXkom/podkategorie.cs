@@ -7,25 +7,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Xkom
+namespace Xkom.DBXkom
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class kategorie
+    public partial class podkategorie
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public kategorie()
+        public podkategorie()
         {
-            this.podkategorie = new HashSet<podkategorie>();
             this.produkt = new HashSet<produkt>();
         }
     
         public int id { get; set; }
-        public string nazwa_kategorii { get; set; }
+        public int kategorie_id { get; set; }
+        public string nazwa_podkategorii { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<podkategorie> podkategorie { get; set; }
+        public virtual kategorie kategorie { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<produkt> produkt { get; set; }
     }

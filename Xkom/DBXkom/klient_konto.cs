@@ -7,17 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Xkom
+namespace Xkom.DBXkom
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class zdj_produktu
+    public partial class klient_konto
     {
         public int id { get; set; }
-        public int produkt_id { get; set; }
-        public string path_do_zdj { get; set; }
+        public string mail { get; set; }
+        public byte[] haslo { get; set; }
+        public Nullable<System.Guid> sol { get; set; }
+        public Nullable<int> klient_id { get; set; }
     
-        public virtual produkt produkt { get; set; }
+        public virtual klient klient { get; set; }
     }
 }

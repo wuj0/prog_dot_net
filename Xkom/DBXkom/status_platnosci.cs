@@ -7,28 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Xkom
+namespace Xkom.DBXkom
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class cena
+    public partial class status_platnosci
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public cena()
+        public status_platnosci()
         {
-            this.zamowienia = new HashSet<zamowienia>();
+            this.koszyk = new HashSet<koszyk>();
         }
     
         public int id { get; set; }
-        public Nullable<int> produkt_id { get; set; }
-        public decimal cena_brutto { get; set; }
-        public double stawka_vat { get; set; }
-        public Nullable<double> cena_netto { get; set; }
-        public Nullable<double> Wartosc_netto { get; set; }
+        public string status_platnosci1 { get; set; }
     
-        public virtual produkt produkt { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<zamowienia> zamowienia { get; set; }
+        public virtual ICollection<koszyk> koszyk { get; set; }
     }
 }

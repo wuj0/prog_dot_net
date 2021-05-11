@@ -7,33 +7,28 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Xkom
+namespace Xkom.DBXkom
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class klient
+    public partial class cena
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public klient()
+        public cena()
         {
-            this.klient_konto = new HashSet<klient_konto>();
-            this.koszyk = new HashSet<koszyk>();
+            this.zamowienia = new HashSet<zamowienia>();
         }
     
         public int id { get; set; }
-        public string imie { get; set; }
-        public string nazwisko { get; set; }
-        public Nullable<decimal> nip { get; set; }
-        public string nazwa_firmy { get; set; }
-        public string kod_pocztowy { get; set; }
-        public string miasto { get; set; }
-        public string mail { get; set; }
-        public string telefon { get; set; }
+        public Nullable<int> produkt_id { get; set; }
+        public decimal cena_brutto { get; set; }
+        public double stawka_vat { get; set; }
+        public Nullable<double> cena_netto { get; set; }
+        public Nullable<double> Wartosc_netto { get; set; }
     
+        public virtual produkt produkt { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<klient_konto> klient_konto { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<koszyk> koszyk { get; set; }
+        public virtual ICollection<zamowienia> zamowienia { get; set; }
     }
 }

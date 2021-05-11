@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Xkom.DBXkom;
 
 namespace Xkom
 {
@@ -273,8 +274,8 @@ namespace Xkom
 
         public void ListOfCategories(List<string> list)
         {
-            List<string> listOfCategories = SeperateK(checkedBox);
-            List<string> listOfPK = SeperatePK(checkedBox);
+            List<string> listOfCategories = SeperateK(list);
+            List<string> listOfPK = SeperatePK(list);
 
             var threeTables = from p in xkom.produkt
                               join k in xkom.kategorie on p.kategorie_id equals k.id

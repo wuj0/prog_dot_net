@@ -7,19 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Xkom
+namespace Xkom.DBXkom
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class klient_konto
+    public partial class produkt_all
     {
-        public int id { get; set; }
-        public string mail { get; set; }
-        public byte[] haslo { get; set; }
-        public Nullable<System.Guid> sol { get; set; }
-        public Nullable<int> klient_id { get; set; }
-    
-        public virtual klient klient { get; set; }
+        public string Nazwa_Produktu { get; set; }
+        public string Opis_Produktu { get; set; }
+        public string Kategoria { get; set; }
+        public string Podkategoria { get; set; }
+        public Nullable<decimal> Cena_Brutto { get; set; }
+        public Nullable<double> Cena_Netto { get; set; }
+        public Nullable<int> Stawka_Vat { get; set; }
     }
 }

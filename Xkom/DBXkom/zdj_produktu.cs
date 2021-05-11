@@ -7,16 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Xkom
+namespace Xkom.DBXkom
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class wartosc_zamowienia
+    public partial class zdj_produktu
     {
-        public int Numer_Zamówienia { get; set; }
-        public Nullable<double> Koszt_Całkowity_Brutto { get; set; }
-        public Nullable<double> Koszt_Całkowity_Netto { get; set; }
-        public Nullable<double> Koszt_Całkowity_Stawki_VAT { get; set; }
+        public int id { get; set; }
+        public int produkt_id { get; set; }
+        public string path_do_zdj { get; set; }
+    
+        public virtual produkt produkt { get; set; }
     }
 }

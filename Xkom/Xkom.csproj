@@ -36,6 +36,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -66,69 +70,68 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="cena.cs">
+    <Compile Include="DBXkom\cena.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="entity.cs">
+    <Compile Include="DBXkom\entity.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="ilosc.cs">
+    <Compile Include="DBXkom\ilosc.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="kategorie.cs">
+    <Compile Include="DBXkom\kategorie.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="klient.cs">
+    <Compile Include="DBXkom\klient.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="klient_konto.cs">
+    <Compile Include="DBXkom\klient_konto.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="koszyk.cs">
+    <Compile Include="DBXkom\koszyk.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Koszyk.xaml.cs">
+    <Compile Include="Forms\Koszyk.xaml.cs">
       <DependentUpon>Koszyk.xaml</DependentUpon>
     </Compile>
-    <Compile Include="KoszykTest.cs" />
-    <Compile Include="podkategorie.cs">
+    <Compile Include="DBXkom\podkategorie.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductWindow.xaml.cs">
+    <Compile Include="Forms\ProductWindow.xaml.cs">
       <DependentUpon>ProductWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="produkt.cs">
+    <Compile Include="DBXkom\produkt.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="produkt_all.cs">
+    <Compile Include="DBXkom\produkt_all.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="produkt_opis.cs">
+    <Compile Include="DBXkom\produkt_opis.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="status_platnosci.cs">
+    <Compile Include="DBXkom\status_platnosci.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
     <Compile Include="TestKategorie.cs" />
-    <Compile Include="wartosc_zamowienia.cs">
+    <Compile Include="DBXkom\wartosc_zamowienia.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="zamowienia.cs">
+    <Compile Include="DBXkom\zamowienia.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="zamowienie_all.cs">
+    <Compile Include="DBXkom\zamowienie_all.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="zdj_produktu.cs">
+    <Compile Include="DBXkom\zdj_produktu.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Page Include="Koszyk.xaml">
+    <Page Include="Forms\Koszyk.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Forms\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -136,21 +139,21 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="entity.Context.cs">
+    <Compile Include="DBXkom\entity.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>entity.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="entity.Designer.cs">
+    <Compile Include="DBXkom\entity.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>entity.edmx</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Forms\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ProductWindow.xaml">
+    <Page Include="Forms\ProductWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -173,14 +176,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="entity.edmx">
+    <EntityDeploy Include="DBXkom\entity.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>entity.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="entity.edmx.diagram">
+    <None Include="DBXkom\entity.edmx.diagram">
       <DependentUpon>entity.edmx</DependentUpon>
     </None>
-    <None Include="packages.config" />
+    <None Include="Forms\packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -190,12 +193,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="entity.Context.tt">
+    <Content Include="DBXkom\entity.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>entity.Context.cs</LastGenOutput>
       <DependentUpon>entity.edmx</DependentUpon>
     </Content>
-    <Content Include="entity.tt">
+    <Content Include="DBXkom\entity.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>entity.edmx</DependentUpon>
       <LastGenOutput>entity.cs</LastGenOutput>
@@ -204,6 +207,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -7,17 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Xkom
+namespace Xkom.DBXkom
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class ilosc
+    public partial class wartosc_zamowienia
     {
-        public int id { get; set; }
-        public int produkt_id { get; set; }
-        public byte ilosc1 { get; set; }
-    
-        public virtual produkt produkt { get; set; }
+        public int Numer_Zamówienia { get; set; }
+        public Nullable<double> Koszt_Całkowity_Brutto { get; set; }
+        public Nullable<double> Koszt_Całkowity_Netto { get; set; }
+        public Nullable<double> Koszt_Całkowity_Stawki_VAT { get; set; }
     }
 }

@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Xkom.DBXkom;
 
 namespace Xkom
 {
@@ -27,7 +28,6 @@ namespace Xkom
         private List<int> priceId = new List<int>();
 
         DataTable dataTable = new DataTable();
-        ObservableCollection<TestKategorie> dataTable1 = new ObservableCollection<TestKategorie>();
         private Dictionary<int, int> koszyk = ProductWindow.KOSZYK;
         private Xkom_ProjektEntities xkom = new Xkom_ProjektEntities();
         double? wartoscNetto = 0.0;

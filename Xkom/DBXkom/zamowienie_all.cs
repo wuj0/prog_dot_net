@@ -7,19 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Xkom
+namespace Xkom.DBXkom
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class produkt_all
+    public partial class zamowienie_all
     {
+        public int Numer_Zamówienia { get; set; }
         public string Nazwa_Produktu { get; set; }
-        public string Opis_Produktu { get; set; }
-        public string Kategoria { get; set; }
-        public string Podkategoria { get; set; }
-        public Nullable<decimal> Cena_Brutto { get; set; }
-        public Nullable<double> Cena_Netto { get; set; }
-        public Nullable<int> Stawka_Vat { get; set; }
+        public Nullable<decimal> Cena_Jednostkowa_Brutto { get; set; }
+        public Nullable<double> Cena_Całkowita_Brutto { get; set; }
+        public Nullable<double> Cena_Całkowita_Netto { get; set; }
+        public Nullable<int> Ilość { get; set; }
     }
 }
