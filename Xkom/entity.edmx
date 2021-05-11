@@ -1,0 +1,1022 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Xkom_ProjektModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cena">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="produkt_id" Type="int" />
+          <Property Name="cena_brutto" Type="money" Nullable="false" />
+          <Property Name="stawka_vat" Type="float" Nullable="false" />
+          <Property Name="cena_netto" Type="float" StoreGeneratedPattern="Computed" />
+          <Property Name="Wartosc_netto" Type="float" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="ilosc">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="produkt_id" Type="int" Nullable="false" />
+          <Property Name="ilosc" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="kategorie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nazwa_kategorii" Type="varchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="klient">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="imie" Type="varchar" MaxLength="32" />
+          <Property Name="nazwisko" Type="varchar" MaxLength="64" />
+          <Property Name="nip" Type="numeric" Precision="10" Scale="0" />
+          <Property Name="nazwa_firmy" Type="varchar" MaxLength="256" />
+          <Property Name="kod_pocztowy" Type="varchar" MaxLength="6" />
+          <Property Name="miasto" Type="varchar" MaxLength="64" />
+          <Property Name="mail" Type="varchar" MaxLength="320" />
+          <Property Name="telefon" Type="varchar" MaxLength="11" />
+        </EntityType>
+        <EntityType Name="klient_konto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="mail" Type="nvarchar" MaxLength="32" Nullable="false" />
+          <Property Name="haslo" Type="binary" MaxLength="256" Nullable="false" />
+          <Property Name="sol" Type="uniqueidentifier" />
+          <Property Name="klient_id" Type="int" />
+        </EntityType>
+        <EntityType Name="koszyk">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_zamowienia" Type="int" Nullable="false" />
+          <Property Name="id_klienta" Type="int" Nullable="false" />
+          <Property Name="status_platnosci" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="podkategorie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kategorie_id" Type="int" Nullable="false" />
+          <Property Name="nazwa_podkategorii" Type="varchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="produkt">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nazwa_produktu" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Kod_produktu" Type="decimal" Precision="6" Scale="0" Nullable="false" />
+          <Property Name="kategorie_id" Type="int" Nullable="false" />
+          <Property Name="podkategorie_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="produkt_opis">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="produkt_id" Type="int" />
+          <Property Name="opis" Type="text" />
+        </EntityType>
+        <EntityType Name="status_platnosci">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="status_platnosci" Type="varchar" MaxLength="21" />
+        </EntityType>
+        <EntityType Name="zamowienia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="zamowienie_id" Type="int" Nullable="false" />
+          <Property Name="produkt_id" Type="int" Nullable="false" />
+          <Property Name="cena_id" Type="int" Nullable="false" />
+          <Property Name="ilosc" Type="int" />
+        </EntityType>
+        <EntityType Name="zdj_produktu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="produkt_id" Type="int" Nullable="false" />
+          <Property Name="path_do_zdj" Type="text" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'Xkom_Projekt.dbo.kategorie_all' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="kategorie_all">
+          <Property Name="Kategoria" Type="varchar" MaxLength="64" />
+          <Property Name="Podkategoria" Type="varchar" MaxLength="64" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Xkom_Projekt.dbo.produkt_all' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="produkt_all">
+          <Key>
+            <PropertyRef Name="Nazwa Produktu" />
+          </Key>
+          <Property Name="Nazwa Produktu" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Opis Produktu" Type="text" />
+          <Property Name="Kategoria" Type="varchar" MaxLength="64" />
+          <Property Name="Podkategoria" Type="varchar" MaxLength="64" />
+          <Property Name="Cena Brutto" Type="money" />
+          <Property Name="Cena Netto" Type="float" />
+          <Property Name="Stawka Vat" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Xkom_Projekt.dbo.wartosc_zamowienia' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="wartosc_zamowienia">
+          <Key>
+            <PropertyRef Name="Numer Zamówienia" />
+          </Key>
+          <Property Name="Numer Zamówienia" Type="int" Nullable="false" />
+          <Property Name="Koszt Całkowity Brutto" Type="float" />
+          <Property Name="Koszt Całkowity Netto" Type="float" />
+          <Property Name="Koszt Całkowity Stawki VAT" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="zamowienie_all">
+          <Key>
+            <PropertyRef Name="Numer Zamówienia" />
+          </Key>
+          <Property Name="Numer Zamówienia" Type="int" Nullable="false" />
+          <Property Name="Nazwa Produktu" Type="varchar" MaxLength="128" />
+          <Property Name="Cena Jednostkowa Brutto" Type="money" />
+          <Property Name="Cena Całkowita Brutto" Type="float" />
+          <Property Name="Cena Całkowita Netto" Type="float" />
+          <Property Name="Ilość" Type="int" />
+        </EntityType>
+        <Association Name="FK__cena__produkt_id__300424B4">
+          <End Role="produkt" Type="Self.produkt" Multiplicity="0..1" />
+          <End Role="cena" Type="Self.cena" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="produkt">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cena">
+              <PropertyRef Name="produkt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ilosc__produkt_i__2D27B809">
+          <End Role="produkt" Type="Self.produkt" Multiplicity="1" />
+          <End Role="ilosc" Type="Self.ilosc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="produkt">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ilosc">
+              <PropertyRef Name="produkt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__klient_ko__klien__4222D4EF">
+          <End Role="klient" Type="Self.klient" Multiplicity="0..1" />
+          <End Role="klient_konto" Type="Self.klient_konto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="klient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="klient_konto">
+              <PropertyRef Name="klient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__koszyk__id_klien__3E52440B">
+          <End Role="klient" Type="Self.klient" Multiplicity="1" />
+          <End Role="koszyk" Type="Self.koszyk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="klient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="koszyk">
+              <PropertyRef Name="id_klienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__koszyk__id_zamow__3D5E1FD2">
+          <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="1" />
+          <End Role="koszyk" Type="Self.koszyk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="zamowienia">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="koszyk">
+              <PropertyRef Name="id_zamowienia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__koszyk__status_p__3F466844">
+          <End Role="status_platnosci" Type="Self.status_platnosci" Multiplicity="1" />
+          <End Role="koszyk" Type="Self.koszyk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status_platnosci">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="koszyk">
+              <PropertyRef Name="status_platnosci" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__podkatego__kateg__267ABA7A">
+          <End Role="kategorie" Type="Self.kategorie" Multiplicity="1" />
+          <End Role="podkategorie" Type="Self.podkategorie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kategorie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="podkategorie">
+              <PropertyRef Name="kategorie_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__produkt__kategor__29572725">
+          <End Role="kategorie" Type="Self.kategorie" Multiplicity="1" />
+          <End Role="produkt" Type="Self.produkt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kategorie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="produkt">
+              <PropertyRef Name="kategorie_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__produkt__podkate__2A4B4B5E">
+          <End Role="podkategorie" Type="Self.podkategorie" Multiplicity="1" />
+          <End Role="produkt" Type="Self.produkt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="podkategorie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="produkt">
+              <PropertyRef Name="podkategorie_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__produkt_o__produ__44FF419A">
+          <End Role="produkt" Type="Self.produkt" Multiplicity="0..1" />
+          <End Role="produkt_opis" Type="Self.produkt_opis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="produkt">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="produkt_opis">
+              <PropertyRef Name="produkt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zamowieni__cena___33D4B598">
+          <End Role="cena" Type="Self.cena" Multiplicity="1" />
+          <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cena">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="zamowienia">
+              <PropertyRef Name="cena_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zamowieni__produ__32E0915F">
+          <End Role="produkt" Type="Self.produkt" Multiplicity="1" />
+          <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="produkt">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="zamowienia">
+              <PropertyRef Name="produkt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zdj_produ__produ__38996AB5">
+          <End Role="produkt" Type="Self.produkt" Multiplicity="1" />
+          <End Role="zdj_produktu" Type="Self.zdj_produktu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="produkt">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="zdj_produktu">
+              <PropertyRef Name="produkt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="dodawanie_usera" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nowy_user" Type="nvarchar" Mode="In" />
+          <Parameter Name="haslo" Type="varchar" Mode="In" />
+          <Parameter Name="zwrotka" Type="varchar" Mode="In" />
+          <Parameter Name="imie" Type="varchar" Mode="In" />
+          <Parameter Name="nazwisko" Type="varchar" Mode="In" />
+          <Parameter Name="nip" Type="varchar" Mode="In" />
+          <Parameter Name="nazwa_firmy" Type="varchar" Mode="In" />
+          <Parameter Name="kod_pocztowy" Type="varchar" Mode="In" />
+          <Parameter Name="miasto" Type="varchar" Mode="In" />
+          <Parameter Name="telefon" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="Xkom_ProjektModelStoreContainer">
+          <EntitySet Name="cena" EntityType="Self.cena" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ilosc" EntityType="Self.ilosc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="kategorie" EntityType="Self.kategorie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="klient" EntityType="Self.klient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="klient_konto" EntityType="Self.klient_konto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="koszyk" EntityType="Self.koszyk" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="podkategorie" EntityType="Self.podkategorie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="produkt" EntityType="Self.produkt" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="produkt_opis" EntityType="Self.produkt_opis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="status_platnosci" EntityType="Self.status_platnosci" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="zamowienia" EntityType="Self.zamowienia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="zdj_produktu" EntityType="Self.zdj_produktu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="produkt_all" EntityType="Self.produkt_all" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [produkt_all].[Nazwa Produktu] AS [Nazwa Produktu], 
+    [produkt_all].[Opis Produktu] AS [Opis Produktu], 
+    [produkt_all].[Kategoria] AS [Kategoria], 
+    [produkt_all].[Podkategoria] AS [Podkategoria], 
+    [produkt_all].[Cena Brutto] AS [Cena Brutto], 
+    [produkt_all].[Cena Netto] AS [Cena Netto], 
+    [produkt_all].[Stawka Vat] AS [Stawka Vat]
+    FROM [dbo].[produkt_all] AS [produkt_all]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="wartosc_zamowienia" EntityType="Self.wartosc_zamowienia" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [wartosc_zamowienia].[Numer Zamówienia] AS [Numer Zamówienia], 
+    [wartosc_zamowienia].[Koszt Całkowity Brutto] AS [Koszt Całkowity Brutto], 
+    [wartosc_zamowienia].[Koszt Całkowity Netto] AS [Koszt Całkowity Netto], 
+    [wartosc_zamowienia].[Koszt Całkowity Stawki VAT] AS [Koszt Całkowity Stawki VAT]
+    FROM [dbo].[wartosc_zamowienia] AS [wartosc_zamowienia]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="zamowienie_all" EntityType="Self.zamowienie_all" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [zamowienie_all].[Numer Zamówienia] AS [Numer Zamówienia], 
+    [zamowienie_all].[Nazwa Produktu] AS [Nazwa Produktu], 
+    [zamowienie_all].[Cena Jednostkowa Brutto] AS [Cena Jednostkowa Brutto], 
+    [zamowienie_all].[Cena Całkowita Brutto] AS [Cena Całkowita Brutto], 
+    [zamowienie_all].[Cena Całkowita Netto] AS [Cena Całkowita Netto], 
+    [zamowienie_all].[Ilość] AS [Ilość]
+    FROM [dbo].[zamowienie_all] AS [zamowienie_all]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__cena__produkt_id__300424B4" Association="Self.FK__cena__produkt_id__300424B4">
+            <End Role="produkt" EntitySet="produkt" />
+            <End Role="cena" EntitySet="cena" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ilosc__produkt_i__2D27B809" Association="Self.FK__ilosc__produkt_i__2D27B809">
+            <End Role="produkt" EntitySet="produkt" />
+            <End Role="ilosc" EntitySet="ilosc" />
+          </AssociationSet>
+          <AssociationSet Name="FK__klient_ko__klien__4222D4EF" Association="Self.FK__klient_ko__klien__4222D4EF">
+            <End Role="klient" EntitySet="klient" />
+            <End Role="klient_konto" EntitySet="klient_konto" />
+          </AssociationSet>
+          <AssociationSet Name="FK__koszyk__id_klien__3E52440B" Association="Self.FK__koszyk__id_klien__3E52440B">
+            <End Role="klient" EntitySet="klient" />
+            <End Role="koszyk" EntitySet="koszyk" />
+          </AssociationSet>
+          <AssociationSet Name="FK__koszyk__id_zamow__3D5E1FD2" Association="Self.FK__koszyk__id_zamow__3D5E1FD2">
+            <End Role="zamowienia" EntitySet="zamowienia" />
+            <End Role="koszyk" EntitySet="koszyk" />
+          </AssociationSet>
+          <AssociationSet Name="FK__koszyk__status_p__3F466844" Association="Self.FK__koszyk__status_p__3F466844">
+            <End Role="status_platnosci" EntitySet="status_platnosci" />
+            <End Role="koszyk" EntitySet="koszyk" />
+          </AssociationSet>
+          <AssociationSet Name="FK__podkatego__kateg__267ABA7A" Association="Self.FK__podkatego__kateg__267ABA7A">
+            <End Role="kategorie" EntitySet="kategorie" />
+            <End Role="podkategorie" EntitySet="podkategorie" />
+          </AssociationSet>
+          <AssociationSet Name="FK__produkt__kategor__29572725" Association="Self.FK__produkt__kategor__29572725">
+            <End Role="kategorie" EntitySet="kategorie" />
+            <End Role="produkt" EntitySet="produkt" />
+          </AssociationSet>
+          <AssociationSet Name="FK__produkt__podkate__2A4B4B5E" Association="Self.FK__produkt__podkate__2A4B4B5E">
+            <End Role="podkategorie" EntitySet="podkategorie" />
+            <End Role="produkt" EntitySet="produkt" />
+          </AssociationSet>
+          <AssociationSet Name="FK__produkt_o__produ__44FF419A" Association="Self.FK__produkt_o__produ__44FF419A">
+            <End Role="produkt" EntitySet="produkt" />
+            <End Role="produkt_opis" EntitySet="produkt_opis" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zamowieni__cena___33D4B598" Association="Self.FK__zamowieni__cena___33D4B598">
+            <End Role="cena" EntitySet="cena" />
+            <End Role="zamowienia" EntitySet="zamowienia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zamowieni__produ__32E0915F" Association="Self.FK__zamowieni__produ__32E0915F">
+            <End Role="produkt" EntitySet="produkt" />
+            <End Role="zamowienia" EntitySet="zamowienia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zdj_produ__produ__38996AB5" Association="Self.FK__zdj_produ__produ__38996AB5">
+            <End Role="produkt" EntitySet="produkt" />
+            <End Role="zdj_produktu" EntitySet="zdj_produktu" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Xkom_ProjektModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="cena">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="produkt_id" Type="Int32" />
+          <Property Name="cena_brutto" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="stawka_vat" Type="Double" Nullable="false" />
+          <Property Name="cena_netto" Type="Double" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Wartosc_netto" Type="Double" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="produkt" Relationship="Self.FK__cena__produkt_id__300424B4" FromRole="cena" ToRole="produkt" />
+          <NavigationProperty Name="zamowienia" Relationship="Self.FK__zamowieni__cena___33D4B598" FromRole="cena" ToRole="zamowienia" />
+        </EntityType>
+        <EntityType Name="ilosc">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="produkt_id" Type="Int32" Nullable="false" />
+          <Property Name="ilosc1" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="produkt" Relationship="Self.FK__ilosc__produkt_i__2D27B809" FromRole="ilosc" ToRole="produkt" />
+        </EntityType>
+        <EntityType Name="kategorie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nazwa_kategorii" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="podkategorie" Relationship="Self.FK__podkatego__kateg__267ABA7A" FromRole="kategorie" ToRole="podkategorie" />
+          <NavigationProperty Name="produkt" Relationship="Self.FK__produkt__kategor__29572725" FromRole="kategorie" ToRole="produkt" />
+        </EntityType>
+        <EntityType Name="klient">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="imie" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="nazwisko" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="nip" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="nazwa_firmy" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="kod_pocztowy" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="miasto" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="mail" Type="String" MaxLength="320" FixedLength="false" Unicode="false" />
+          <Property Name="telefon" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="klient_konto" Relationship="Self.FK__klient_ko__klien__4222D4EF" FromRole="klient" ToRole="klient_konto" />
+          <NavigationProperty Name="koszyk" Relationship="Self.FK__koszyk__id_klien__3E52440B" FromRole="klient" ToRole="koszyk" />
+        </EntityType>
+        <EntityType Name="klient_konto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="mail" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="haslo" Type="Binary" MaxLength="256" FixedLength="true" Nullable="false" />
+          <Property Name="sol" Type="Guid" />
+          <Property Name="klient_id" Type="Int32" />
+          <NavigationProperty Name="klient" Relationship="Self.FK__klient_ko__klien__4222D4EF" FromRole="klient_konto" ToRole="klient" />
+        </EntityType>
+        <EntityType Name="koszyk">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_zamowienia" Type="Int32" Nullable="false" />
+          <Property Name="id_klienta" Type="Int32" Nullable="false" />
+          <Property Name="status_platnosci" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="klient" Relationship="Self.FK__koszyk__id_klien__3E52440B" FromRole="koszyk" ToRole="klient" />
+          <NavigationProperty Name="zamowienia" Relationship="Self.FK__koszyk__id_zamow__3D5E1FD2" FromRole="koszyk" ToRole="zamowienia" />
+          <NavigationProperty Name="status_platnosci1" Relationship="Self.FK__koszyk__status_p__3F466844" FromRole="koszyk" ToRole="status_platnosci" />
+        </EntityType>
+        <EntityType Name="podkategorie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kategorie_id" Type="Int32" Nullable="false" />
+          <Property Name="nazwa_podkategorii" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="kategorie" Relationship="Self.FK__podkatego__kateg__267ABA7A" FromRole="podkategorie" ToRole="kategorie" />
+          <NavigationProperty Name="produkt" Relationship="Self.FK__produkt__podkate__2A4B4B5E" FromRole="podkategorie" ToRole="produkt" />
+        </EntityType>
+        <EntityType Name="produkt">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nazwa_produktu" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Kod_produktu" Type="Decimal" Precision="6" Scale="0" Nullable="false" />
+          <Property Name="kategorie_id" Type="Int32" Nullable="false" />
+          <Property Name="podkategorie_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="cena" Relationship="Self.FK__cena__produkt_id__300424B4" FromRole="produkt" ToRole="cena" />
+          <NavigationProperty Name="ilosc" Relationship="Self.FK__ilosc__produkt_i__2D27B809" FromRole="produkt" ToRole="ilosc" />
+          <NavigationProperty Name="kategorie" Relationship="Self.FK__produkt__kategor__29572725" FromRole="produkt" ToRole="kategorie" />
+          <NavigationProperty Name="podkategorie" Relationship="Self.FK__produkt__podkate__2A4B4B5E" FromRole="produkt" ToRole="podkategorie" />
+          <NavigationProperty Name="produkt_opis" Relationship="Self.FK__produkt_o__produ__44FF419A" FromRole="produkt" ToRole="produkt_opis" />
+          <NavigationProperty Name="zamowienia" Relationship="Self.FK__zamowieni__produ__32E0915F" FromRole="produkt" ToRole="zamowienia" />
+          <NavigationProperty Name="zdj_produktu" Relationship="Self.FK__zdj_produ__produ__38996AB5" FromRole="produkt" ToRole="zdj_produktu" />
+        </EntityType>
+        <EntityType Name="produkt_opis">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="produkt_id" Type="Int32" />
+          <Property Name="opis" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="produkt" Relationship="Self.FK__produkt_o__produ__44FF419A" FromRole="produkt_opis" ToRole="produkt" />
+        </EntityType>
+        <EntityType Name="status_platnosci">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="status_platnosci1" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="koszyk" Relationship="Self.FK__koszyk__status_p__3F466844" FromRole="status_platnosci" ToRole="koszyk" />
+        </EntityType>
+        <EntityType Name="zamowienia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="zamowienie_id" Type="Int32" Nullable="false" />
+          <Property Name="produkt_id" Type="Int32" Nullable="false" />
+          <Property Name="cena_id" Type="Int32" Nullable="false" />
+          <Property Name="ilosc" Type="Int32" />
+          <NavigationProperty Name="cena" Relationship="Self.FK__zamowieni__cena___33D4B598" FromRole="zamowienia" ToRole="cena" />
+          <NavigationProperty Name="koszyk" Relationship="Self.FK__koszyk__id_zamow__3D5E1FD2" FromRole="zamowienia" ToRole="koszyk" />
+          <NavigationProperty Name="produkt" Relationship="Self.FK__zamowieni__produ__32E0915F" FromRole="zamowienia" ToRole="produkt" />
+        </EntityType>
+        <EntityType Name="zdj_produktu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="produkt_id" Type="Int32" Nullable="false" />
+          <Property Name="path_do_zdj" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="produkt" Relationship="Self.FK__zdj_produ__produ__38996AB5" FromRole="zdj_produktu" ToRole="produkt" />
+        </EntityType>
+        <EntityType Name="produkt_all">
+          <Key>
+            <PropertyRef Name="Nazwa_Produktu" />
+          </Key>
+          <Property Name="Nazwa_Produktu" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Opis_Produktu" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Kategoria" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Podkategoria" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Cena_Brutto" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Cena_Netto" Type="Double" />
+          <Property Name="Stawka_Vat" Type="Int32" />
+        </EntityType>
+        <EntityType Name="wartosc_zamowienia">
+          <Key>
+            <PropertyRef Name="Numer_Zamówienia" />
+          </Key>
+          <Property Name="Numer_Zamówienia" Type="Int32" Nullable="false" />
+          <Property Name="Koszt_Całkowity_Brutto" Type="Double" />
+          <Property Name="Koszt_Całkowity_Netto" Type="Double" />
+          <Property Name="Koszt_Całkowity_Stawki_VAT" Type="Double" />
+        </EntityType>
+        <EntityType Name="zamowienie_all">
+          <Key>
+            <PropertyRef Name="Numer_Zamówienia" />
+          </Key>
+          <Property Name="Numer_Zamówienia" Type="Int32" Nullable="false" />
+          <Property Name="Nazwa_Produktu" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Cena_Jednostkowa_Brutto" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Cena_Całkowita_Brutto" Type="Double" />
+          <Property Name="Cena_Całkowita_Netto" Type="Double" />
+          <Property Name="Ilość" Type="Int32" />
+        </EntityType>
+        <Association Name="FK__cena__produkt_id__300424B4">
+          <End Role="produkt" Type="Self.produkt" Multiplicity="0..1" />
+          <End Role="cena" Type="Self.cena" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="produkt">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cena">
+              <PropertyRef Name="produkt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zamowieni__cena___33D4B598">
+          <End Role="cena" Type="Self.cena" Multiplicity="1" />
+          <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cena">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="zamowienia">
+              <PropertyRef Name="cena_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ilosc__produkt_i__2D27B809">
+          <End Role="produkt" Type="Self.produkt" Multiplicity="1" />
+          <End Role="ilosc" Type="Self.ilosc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="produkt">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ilosc">
+              <PropertyRef Name="produkt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__podkatego__kateg__267ABA7A">
+          <End Role="kategorie" Type="Self.kategorie" Multiplicity="1" />
+          <End Role="podkategorie" Type="Self.podkategorie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kategorie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="podkategorie">
+              <PropertyRef Name="kategorie_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__produkt__kategor__29572725">
+          <End Role="kategorie" Type="Self.kategorie" Multiplicity="1" />
+          <End Role="produkt" Type="Self.produkt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kategorie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="produkt">
+              <PropertyRef Name="kategorie_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__klient_ko__klien__4222D4EF">
+          <End Role="klient" Type="Self.klient" Multiplicity="0..1" />
+          <End Role="klient_konto" Type="Self.klient_konto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="klient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="klient_konto">
+              <PropertyRef Name="klient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__koszyk__id_klien__3E52440B">
+          <End Role="klient" Type="Self.klient" Multiplicity="1" />
+          <End Role="koszyk" Type="Self.koszyk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="klient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="koszyk">
+              <PropertyRef Name="id_klienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__koszyk__id_zamow__3D5E1FD2">
+          <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="1" />
+          <End Role="koszyk" Type="Self.koszyk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="zamowienia">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="koszyk">
+              <PropertyRef Name="id_zamowienia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__koszyk__status_p__3F466844">
+          <End Role="status_platnosci" Type="Self.status_platnosci" Multiplicity="1" />
+          <End Role="koszyk" Type="Self.koszyk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status_platnosci">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="koszyk">
+              <PropertyRef Name="status_platnosci" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__produkt__podkate__2A4B4B5E">
+          <End Role="podkategorie" Type="Self.podkategorie" Multiplicity="1" />
+          <End Role="produkt" Type="Self.produkt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="podkategorie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="produkt">
+              <PropertyRef Name="podkategorie_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__produkt_o__produ__44FF419A">
+          <End Role="produkt" Type="Self.produkt" Multiplicity="0..1" />
+          <End Role="produkt_opis" Type="Self.produkt_opis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="produkt">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="produkt_opis">
+              <PropertyRef Name="produkt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zamowieni__produ__32E0915F">
+          <End Role="produkt" Type="Self.produkt" Multiplicity="1" />
+          <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="produkt">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="zamowienia">
+              <PropertyRef Name="produkt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zdj_produ__produ__38996AB5">
+          <End Role="produkt" Type="Self.produkt" Multiplicity="1" />
+          <End Role="zdj_produktu" Type="Self.zdj_produktu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="produkt">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="zdj_produktu">
+              <PropertyRef Name="produkt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Xkom_ProjektEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cena" EntityType="Self.cena" />
+          <EntitySet Name="ilosc" EntityType="Self.ilosc" />
+          <EntitySet Name="kategorie" EntityType="Self.kategorie" />
+          <EntitySet Name="klient" EntityType="Self.klient" />
+          <EntitySet Name="klient_konto" EntityType="Self.klient_konto" />
+          <EntitySet Name="koszyk" EntityType="Self.koszyk" />
+          <EntitySet Name="podkategorie" EntityType="Self.podkategorie" />
+          <EntitySet Name="produkt" EntityType="Self.produkt" />
+          <EntitySet Name="produkt_opis" EntityType="Self.produkt_opis" />
+          <EntitySet Name="status_platnosci" EntityType="Self.status_platnosci" />
+          <EntitySet Name="zamowienia" EntityType="Self.zamowienia" />
+          <EntitySet Name="zdj_produktu" EntityType="Self.zdj_produktu" />
+          <EntitySet Name="produkt_all" EntityType="Self.produkt_all" />
+          <EntitySet Name="wartosc_zamowienia" EntityType="Self.wartosc_zamowienia" />
+          <EntitySet Name="zamowienie_all" EntityType="Self.zamowienie_all" />
+          <AssociationSet Name="FK__cena__produkt_id__300424B4" Association="Self.FK__cena__produkt_id__300424B4">
+            <End Role="produkt" EntitySet="produkt" />
+            <End Role="cena" EntitySet="cena" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zamowieni__cena___33D4B598" Association="Self.FK__zamowieni__cena___33D4B598">
+            <End Role="cena" EntitySet="cena" />
+            <End Role="zamowienia" EntitySet="zamowienia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ilosc__produkt_i__2D27B809" Association="Self.FK__ilosc__produkt_i__2D27B809">
+            <End Role="produkt" EntitySet="produkt" />
+            <End Role="ilosc" EntitySet="ilosc" />
+          </AssociationSet>
+          <AssociationSet Name="FK__podkatego__kateg__267ABA7A" Association="Self.FK__podkatego__kateg__267ABA7A">
+            <End Role="kategorie" EntitySet="kategorie" />
+            <End Role="podkategorie" EntitySet="podkategorie" />
+          </AssociationSet>
+          <AssociationSet Name="FK__produkt__kategor__29572725" Association="Self.FK__produkt__kategor__29572725">
+            <End Role="kategorie" EntitySet="kategorie" />
+            <End Role="produkt" EntitySet="produkt" />
+          </AssociationSet>
+          <AssociationSet Name="FK__klient_ko__klien__4222D4EF" Association="Self.FK__klient_ko__klien__4222D4EF">
+            <End Role="klient" EntitySet="klient" />
+            <End Role="klient_konto" EntitySet="klient_konto" />
+          </AssociationSet>
+          <AssociationSet Name="FK__koszyk__id_klien__3E52440B" Association="Self.FK__koszyk__id_klien__3E52440B">
+            <End Role="klient" EntitySet="klient" />
+            <End Role="koszyk" EntitySet="koszyk" />
+          </AssociationSet>
+          <AssociationSet Name="FK__koszyk__id_zamow__3D5E1FD2" Association="Self.FK__koszyk__id_zamow__3D5E1FD2">
+            <End Role="zamowienia" EntitySet="zamowienia" />
+            <End Role="koszyk" EntitySet="koszyk" />
+          </AssociationSet>
+          <AssociationSet Name="FK__koszyk__status_p__3F466844" Association="Self.FK__koszyk__status_p__3F466844">
+            <End Role="status_platnosci" EntitySet="status_platnosci" />
+            <End Role="koszyk" EntitySet="koszyk" />
+          </AssociationSet>
+          <AssociationSet Name="FK__produkt__podkate__2A4B4B5E" Association="Self.FK__produkt__podkate__2A4B4B5E">
+            <End Role="podkategorie" EntitySet="podkategorie" />
+            <End Role="produkt" EntitySet="produkt" />
+          </AssociationSet>
+          <AssociationSet Name="FK__produkt_o__produ__44FF419A" Association="Self.FK__produkt_o__produ__44FF419A">
+            <End Role="produkt" EntitySet="produkt" />
+            <End Role="produkt_opis" EntitySet="produkt_opis" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zamowieni__produ__32E0915F" Association="Self.FK__zamowieni__produ__32E0915F">
+            <End Role="produkt" EntitySet="produkt" />
+            <End Role="zamowienia" EntitySet="zamowienia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zdj_produ__produ__38996AB5" Association="Self.FK__zdj_produ__produ__38996AB5">
+            <End Role="produkt" EntitySet="produkt" />
+            <End Role="zdj_produktu" EntitySet="zdj_produktu" />
+          </AssociationSet>
+          <FunctionImport Name="dodawanie_usera" ReturnType="Collection(String)">
+            <Parameter Name="nowy_user" Mode="In" Type="String" />
+            <Parameter Name="haslo" Mode="In" Type="String" />
+            <Parameter Name="zwrotka" Mode="In" Type="String" />
+            <Parameter Name="imie" Mode="In" Type="String" />
+            <Parameter Name="nazwisko" Mode="In" Type="String" />
+            <Parameter Name="nip" Mode="In" Type="String" />
+            <Parameter Name="nazwa_firmy" Mode="In" Type="String" />
+            <Parameter Name="kod_pocztowy" Mode="In" Type="String" />
+            <Parameter Name="miasto" Mode="In" Type="String" />
+            <Parameter Name="telefon" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Xkom_ProjektModelStoreContainer" CdmEntityContainer="Xkom_ProjektEntities">
+          <EntitySetMapping Name="cena">
+            <EntityTypeMapping TypeName="Xkom_ProjektModel.cena">
+              <MappingFragment StoreEntitySet="cena">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="produkt_id" ColumnName="produkt_id" />
+                <ScalarProperty Name="cena_brutto" ColumnName="cena_brutto" />
+                <ScalarProperty Name="stawka_vat" ColumnName="stawka_vat" />
+                <ScalarProperty Name="cena_netto" ColumnName="cena_netto" />
+                <ScalarProperty Name="Wartosc_netto" ColumnName="Wartosc_netto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ilosc">
+            <EntityTypeMapping TypeName="Xkom_ProjektModel.ilosc">
+              <MappingFragment StoreEntitySet="ilosc">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="produkt_id" ColumnName="produkt_id" />
+                <ScalarProperty Name="ilosc1" ColumnName="ilosc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kategorie">
+            <EntityTypeMapping TypeName="Xkom_ProjektModel.kategorie">
+              <MappingFragment StoreEntitySet="kategorie">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nazwa_kategorii" ColumnName="nazwa_kategorii" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="klient">
+            <EntityTypeMapping TypeName="Xkom_ProjektModel.klient">
+              <MappingFragment StoreEntitySet="klient">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="imie" ColumnName="imie" />
+                <ScalarProperty Name="nazwisko" ColumnName="nazwisko" />
+                <ScalarProperty Name="nip" ColumnName="nip" />
+                <ScalarProperty Name="nazwa_firmy" ColumnName="nazwa_firmy" />
+                <ScalarProperty Name="kod_pocztowy" ColumnName="kod_pocztowy" />
+                <ScalarProperty Name="miasto" ColumnName="miasto" />
+                <ScalarProperty Name="mail" ColumnName="mail" />
+                <ScalarProperty Name="telefon" ColumnName="telefon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="klient_konto">
+            <EntityTypeMapping TypeName="Xkom_ProjektModel.klient_konto">
+              <MappingFragment StoreEntitySet="klient_konto">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="mail" ColumnName="mail" />
+                <ScalarProperty Name="haslo" ColumnName="haslo" />
+                <ScalarProperty Name="sol" ColumnName="sol" />
+                <ScalarProperty Name="klient_id" ColumnName="klient_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="koszyk">
+            <EntityTypeMapping TypeName="Xkom_ProjektModel.koszyk">
+              <MappingFragment StoreEntitySet="koszyk">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_zamowienia" ColumnName="id_zamowienia" />
+                <ScalarProperty Name="id_klienta" ColumnName="id_klienta" />
+                <ScalarProperty Name="status_platnosci" ColumnName="status_platnosci" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="podkategorie">
+            <EntityTypeMapping TypeName="Xkom_ProjektModel.podkategorie">
+              <MappingFragment StoreEntitySet="podkategorie">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="kategorie_id" ColumnName="kategorie_id" />
+                <ScalarProperty Name="nazwa_podkategorii" ColumnName="nazwa_podkategorii" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="produkt">
+            <EntityTypeMapping TypeName="Xkom_ProjektModel.produkt">
+              <MappingFragment StoreEntitySet="produkt">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Nazwa_produktu" ColumnName="Nazwa_produktu" />
+                <ScalarProperty Name="Kod_produktu" ColumnName="Kod_produktu" />
+                <ScalarProperty Name="kategorie_id" ColumnName="kategorie_id" />
+                <ScalarProperty Name="podkategorie_id" ColumnName="podkategorie_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="produkt_opis">
+            <EntityTypeMapping TypeName="Xkom_ProjektModel.produkt_opis">
+              <MappingFragment StoreEntitySet="produkt_opis">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="produkt_id" ColumnName="produkt_id" />
+                <ScalarProperty Name="opis" ColumnName="opis" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="status_platnosci">
+            <EntityTypeMapping TypeName="Xkom_ProjektModel.status_platnosci">
+              <MappingFragment StoreEntitySet="status_platnosci">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="status_platnosci1" ColumnName="status_platnosci" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="zamowienia">
+            <EntityTypeMapping TypeName="Xkom_ProjektModel.zamowienia">
+              <MappingFragment StoreEntitySet="zamowienia">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="zamowienie_id" ColumnName="zamowienie_id" />
+                <ScalarProperty Name="produkt_id" ColumnName="produkt_id" />
+                <ScalarProperty Name="cena_id" ColumnName="cena_id" />
+                <ScalarProperty Name="ilosc" ColumnName="ilosc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="zdj_produktu">
+            <EntityTypeMapping TypeName="Xkom_ProjektModel.zdj_produktu">
+              <MappingFragment StoreEntitySet="zdj_produktu">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="produkt_id" ColumnName="produkt_id" />
+                <ScalarProperty Name="path_do_zdj" ColumnName="path_do_zdj" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="produkt_all">
+            <EntityTypeMapping TypeName="Xkom_ProjektModel.produkt_all">
+              <MappingFragment StoreEntitySet="produkt_all">
+                <ScalarProperty Name="Nazwa_Produktu" ColumnName="Nazwa Produktu" />
+                <ScalarProperty Name="Opis_Produktu" ColumnName="Opis Produktu" />
+                <ScalarProperty Name="Kategoria" ColumnName="Kategoria" />
+                <ScalarProperty Name="Podkategoria" ColumnName="Podkategoria" />
+                <ScalarProperty Name="Cena_Brutto" ColumnName="Cena Brutto" />
+                <ScalarProperty Name="Cena_Netto" ColumnName="Cena Netto" />
+                <ScalarProperty Name="Stawka_Vat" ColumnName="Stawka Vat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="wartosc_zamowienia">
+            <EntityTypeMapping TypeName="Xkom_ProjektModel.wartosc_zamowienia">
+              <MappingFragment StoreEntitySet="wartosc_zamowienia">
+                <ScalarProperty Name="Numer_Zamówienia" ColumnName="Numer Zamówienia" />
+                <ScalarProperty Name="Koszt_Całkowity_Brutto" ColumnName="Koszt Całkowity Brutto" />
+                <ScalarProperty Name="Koszt_Całkowity_Netto" ColumnName="Koszt Całkowity Netto" />
+                <ScalarProperty Name="Koszt_Całkowity_Stawki_VAT" ColumnName="Koszt Całkowity Stawki VAT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="zamowienie_all">
+            <EntityTypeMapping TypeName="Xkom_ProjektModel.zamowienie_all">
+              <MappingFragment StoreEntitySet="zamowienie_all">
+                <ScalarProperty Name="Numer_Zamówienia" ColumnName="Numer Zamówienia" />
+                <ScalarProperty Name="Nazwa_Produktu" ColumnName="Nazwa Produktu" />
+                <ScalarProperty Name="Cena_Jednostkowa_Brutto" ColumnName="Cena Jednostkowa Brutto" />
+                <ScalarProperty Name="Cena_Całkowita_Brutto" ColumnName="Cena Całkowita Brutto" />
+                <ScalarProperty Name="Cena_Całkowita_Netto" ColumnName="Cena Całkowita Netto" />
+                <ScalarProperty Name="Ilość" ColumnName="Ilość" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="dodawanie_usera" FunctionName="Xkom_ProjektModel.Store.dodawanie_usera" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

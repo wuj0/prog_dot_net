@@ -1,0 +1,39 @@
+﻿<Window x:Class="Xkom.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Xkom"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="953.628" Width="1557.955" Closed="Window_Closed">
+
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="1516*"/>
+        </Grid.ColumnDefinitions>
+        <StatusBar x:Name="StatusBar" HorizontalAlignment="Left" Height="43" Margin="1.352,870,0,0" VerticalAlignment="Top" Width="1402" Grid.ColumnSpan="2" Grid.Column="1"/>
+        <Button x:Name="SearchBtn" Content="Szukaj" HorizontalAlignment="Left" Margin="15.352,10,0,0" VerticalAlignment="Top" Width="76" Click="SearchBtn_Click" Height="19" Grid.ColumnSpan="2" Grid.Column="1"/>
+        <DataGrid x:Name="dg1" HorizontalAlignment="Left" Height="855" Margin="395,10,0,0" VerticalAlignment="Top" Width="1111" AutoGeneratingColumn="dg1_AutoGeneratingColumn" IsReadOnly="True" MouseDoubleClick="dg1_MouseDoubleClick" SelectionMode="Single" Grid.Column="2"/>
+
+        <StackPanel x:Name="st1"  HorizontalAlignment="Left" Height="240" Margin="50,123,0,0" VerticalAlignment="Top" Width="318" Grid.Column="2">
+            <ListBox x:Name="listBoxZone" ItemsSource="{DynamicResource TheList}" Height="244" Background="Azure" Margin="0,0,10,0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox x:Name="CheckBoxZone" Content="{Binding NazwaKategorii}" Tag="{Binding Id}" Margin="0,5,0,0" Checked="CheckBoxZone_Checked" Unchecked="CheckBoxZone_UnChecked">
+                        </CheckBox>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+        <Button x:Name="btn1" Content="Koszyk" HorizontalAlignment="Left" Margin="16.352,34,0,0" VerticalAlignment="Top" Width="75" Click="btn1_Click" Grid.ColumnSpan="2" Grid.Column="1" />
+        <TextBox x:Name="textbox1" HorizontalAlignment="Left" Height="174" Margin="133,492,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="183" Grid.Column="2"/>
+        <TextBox x:Name="WyszukajTextBox" HorizontalAlignment="Left" Height="23" Margin="100,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="2" Text=""/>
+
+
+
+
+    </Grid>
+</Window>
