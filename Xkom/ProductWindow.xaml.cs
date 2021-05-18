@@ -21,16 +21,19 @@ namespace Xkom
     public partial class ProductWindow : Window
     {
         private Xkom_ProjektEntities xkom = new Xkom_ProjektEntities();
-        string name = MainWindow.NAME_OF_PRODUCT;
+        //string name = MainWindow.NAME_OF_PRODUCT?.ToString();
         int Id = 0;
         public static Dictionary<int, int> KOSZYK = new Dictionary<int, int>();
+        
         int iloscProduktu = 0;
         int iloscKupowana = 1;
         public ProductWindow()
         {
             InitializeComponent();
-            ReadProduct();
+            //ReadProduct();
         }
+
+
 
         private void btnBuy_Click(object sender, RoutedEventArgs e)
         {
@@ -52,6 +55,10 @@ namespace Xkom
                     
                 }
             }
+            else
+            {
+                MessageBox.Show("");
+            }
 
         }
 
@@ -64,7 +71,8 @@ namespace Xkom
                               join opis in xkom.produkt_opis on p.id equals opis.produkt_id
                               join ilosc in xkom.ilosc on p.id equals ilosc.produkt_id
                               join pk in xkom.podkategorie on k.id equals pk.kategorie_id
-                              where p.Nazwa_produktu == name
+                              join cc in xkom.cena on p.id equals cc.produkt_id
+                              where p.Nazwa_produktu == MainWindow.NAME_OF_PRODUCT
                               select new
                               {
                                   Id = p.id,
@@ -73,10 +81,13 @@ namespace Xkom
                                   Opis = opis.opis,
                                   Kategoria = k.nazwa_kategorii,
                                   Ilosc = ilosc.ilosc1,
-                                  Podkategoria = pk.nazwa_podkategorii
+                                  Podkategoria = pk.nazwa_podkategorii,
+                                  Cena = cc.cena_brutto
                               };
             Id = threeTables.FirstOrDefault().Id;
+            CenaTxtBox.Text = threeTables.FirstOrDefault().Cena.ToString();
             iloscProduktu = threeTables.FirstOrDefault().Ilosc;
+            IloscTxtBox.Text = iloscProduktu.ToString();
             txtBoxName.Text = threeTables.FirstOrDefault().NazwaProduktu;
             txtBoxDesc.Text = threeTables.FirstOrDefault().Opis;
             Uri url = new Uri(threeTables.FirstOrDefault().Zdjecie);
@@ -112,5 +123,25 @@ namespace Xkom
                 odejmijButton.Visibility = Visibility.Hidden;
             }
         }
+
+        private void ProductWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!MainWindow.isClosing)
+            {
+                this.Hide();
+                e.Cancel = true;
+            }
+        }
+
+        public new void Show()
+        {
+            iloscKupowana = 1;
+
+            ReadProduct();
+            
+            base.Show();
+        }
+
+        
     }
 }

@@ -5,15 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Xkom"
         mc:Ignorable="d"
-        Title="ProductWindow" Height="281.764" Width="791.793">
-    <Grid Margin="0,0,0,74">
-        <Image x:Name="imageProduct" HorizontalAlignment="Left" Height="225" Margin="10,10,0,0" VerticalAlignment="Top" Width="260"/>
+        Title="ProductWindow" Height="269.957" Width="791.793" Closing="ProductWindow_Closing">
+    <Grid Margin="0,0,0,5">
+        <Image x:Name="imageProduct" HorizontalAlignment="Left" Height="206" Margin="10,10,0,0" VerticalAlignment="Top" Width="260"/>
         <TextBox x:Name="txtBoxName" HorizontalAlignment="Left" Height="73" Margin="275,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="351" IsReadOnly="True"/>
         <TextBox x:Name="txtBoxDesc" HorizontalAlignment="Left" Height="124" Margin="275,92,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="351" IsReadOnly="True"/>
         <Button x:Name="btnBuy" Content="Button" HorizontalAlignment="Left" Margin="631,10,0,0" VerticalAlignment="Top" Width="151" Height="73" Background="#FF57DCF9" Foreground="#FF0C00FF" Click="btnBuy_Click"/>
         <TextBox x:Name="numberOfPcs" HorizontalAlignment="Left" Height="23" Margin="631,92,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="51" IsReadOnly="True"/>
         <Button x:Name="dodajButtton" Content="Dodaj" HorizontalAlignment="Left" Margin="699,92,0,0" VerticalAlignment="Top" Width="75" Click="dodajButtton_Click"/>
         <Button x:Name="odejmijButton" Content="Odejmij" HorizontalAlignment="Left" Margin="699,117,0,0" VerticalAlignment="Top" Width="75" Click="odejmijButton_Click" Visibility="Hidden"/>
+        <TextBox x:Name="IloscTxtBox" IsReadOnly="True" HorizontalAlignment="Left" Height="22" Margin="722,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="46"/>
+        <TextBox x:Name="CenaTxtBox" IsReadOnly="True" HorizontalAlignment="Left" Height="22" Margin="631,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="51"/>
+        <Label Content="Cena:" HorizontalAlignment="Left" Margin="631,172,0,0" VerticalAlignment="Top" Width="51" Height="19" FontSize="8" RenderTransformOrigin="0.687,0.857"/>
+        <Label Content="Ilość dostępna:" HorizontalAlignment="Left" Margin="699,172,0,0" VerticalAlignment="Top" Width="69" Height="19" FontSize="8" RenderTransformOrigin="0.687,0.857"/>
 
     </Grid>
 </Window>

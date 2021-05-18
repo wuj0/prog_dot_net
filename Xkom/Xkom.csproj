@@ -47,6 +47,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Prism, Version=8.0.0.1909, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.8.0.0.1909\lib\net47\Prism.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -70,6 +73,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CalculatorKoszyk.cs" />
+    <Compile Include="Category.cs" />
+    <Compile Include="CategoryCollectionToBooleanConverter.cs" />
+    <Compile Include="CategoryView.cs" />
     <Compile Include="DBXkom\cena.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
@@ -93,13 +100,14 @@
     <Compile Include="DBXkom\koszyk.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Koszyk.xaml.cs">
+    <Compile Include="Koszyk.xaml.cs">
       <DependentUpon>Koszyk.xaml</DependentUpon>
     </Compile>
     <Compile Include="DBXkom\podkategorie.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ProductWindow.xaml.cs">
+    <Compile Include="KoszykResults.cs" />
+    <Compile Include="ProductWindow.xaml.cs">
       <DependentUpon>ProductWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DBXkom\produkt.cs">
@@ -114,6 +122,7 @@
     <Compile Include="DBXkom\status_platnosci.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
+    <Compile Include="QuerryResult.cs" />
     <Compile Include="TestKategorie.cs" />
     <Compile Include="DBXkom\wartosc_zamowienia.cs">
       <DependentUpon>entity.tt</DependentUpon>
@@ -127,11 +136,11 @@
     <Compile Include="DBXkom\zdj_produktu.cs">
       <DependentUpon>entity.tt</DependentUpon>
     </Compile>
-    <Page Include="Forms\Koszyk.xaml">
+    <Page Include="Koszyk.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\MainWindow.xaml">
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -149,11 +158,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>entity.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MainWindow.xaml.cs">
+    <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Forms\ProductWindow.xaml">
+    <Page Include="ProductWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -183,7 +192,7 @@
     <None Include="DBXkom\entity.edmx.diagram">
       <DependentUpon>entity.edmx</DependentUpon>
     </None>
-    <None Include="Forms\packages.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -207,7 +216,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Forms\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

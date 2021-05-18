@@ -5,21 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Xkom"
         mc:Ignorable="d"
-        Title="Koszyk" Height="450" Width="800">
+        Title="Koszyk" Height="450" Width="800" Closing="Window_Closing">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="0*"/>
-        </Grid.ColumnDefinitions>
-        <DataGrid x:Name="dGKoszyk" HorizontalAlignment="Left" Height="153" Margin="10,44,0,0" VerticalAlignment="Top" Width="599" IsSynchronizedWithCurrentItem="False" SelectedIndex="1">
+        <DataGrid x:Name="dGKoszyk" ItemsSource="{DynamicResource KoszykResults}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="153" Margin="10,44,0,0" VerticalAlignment="Top" Width="599" IsSynchronizedWithCurrentItem="False" SelectedIndex="1">
             <DataGrid.Columns x:Uid="1" >
                 <DataGridTemplateColumn Header="Delete">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate >
                             <Button x:Name="DeleteBtn" Content="Delete" Click="Button_Click" Visibility="Visible"/>
                         </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="*" Header="Nazwa produktu" Binding="{Binding NazwaProduktu}" />
+                <DataGridTextColumn Header="Netto pcs" Binding="{Binding NettoPcs}" />
+                <DataGridTextColumn Header="Netto" Binding="{Binding Netto}" />
+                <DataGridTextColumn Header="Brutto pcs" Binding="{Binding BruttoPcs}" />
+                <DataGridTextColumn Header="Brutto" Binding="{Binding Brutto}" />
+                <DataGridTextColumn Header="Pcs" Binding="{Binding Pcs}" />
             </DataGrid.Columns>
         </DataGrid>
         <Label x:Name="LabelNetto" Content="Wartość zamówienia netto&#xD;&#xA;" HorizontalAlignment="Left" Margin="375,202,0,0" VerticalAlignment="Top" Width="168" Height="28"/>

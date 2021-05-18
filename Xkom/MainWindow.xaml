@@ -1,0 +1,73 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Xkom.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="953.628" Width="1557.955" Closed="Window_Closed">
+    
+
+        <Grid>
+        <StatusBar x:Name="StatusBar" HorizontalAlignment="Left" Height="43" Margin="1,880,0,0" VerticalAlignment="Top" Width="1530"/>
+        <Button x:Name="SearchBtn" Content="Szukaj" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="76" Click="SearchBtn_Click" Height="19" Grid.Column="2"/>
+        <DataGrid x:Name="dg1" ItemsSource="{DynamicResource QuerryResults}" AutoGenerateColumns="True" HorizontalAlignment="Left" Height="831" Margin="320,0,0,58" VerticalAlignment="Bottom" Width="1211" AutoGeneratingColumn="dg1_AutoGeneratingColumn" IsReadOnly="True" MouseDoubleClick="dg1_MouseDoubleClick" SelectionMode="Single" Grid.Column="2">
+            <DataGrid.Columns >
+                <DataGridTextColumn Header="Nazwa produktu" Binding="{Binding NazwaProduktu}" />
+                <DataGridTextColumn Width="*"  Header="Opis" Binding="{Binding Opis}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style >
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Cena" Binding="{Binding Cena}"/>
+                <DataGridTextColumn Header="Kategoria" Binding="{Binding Kategoria}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+        <Button x:Name="btn1" Content="Koszyk" HorizontalAlignment="Left" Margin="1,34,0,0" VerticalAlignment="Top" Width="75" Click="btn1_Click" Grid.Column="2" Height="20" />
+        <TextBox x:Name="textbox1" HorizontalAlignment="Left" Height="50" Margin="6,870,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="65" RenderTransformOrigin="0.5,0.5">
+            <TextBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.794"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBox.RenderTransform>
+        </TextBox>
+        <TextBox x:Name="WyszukajTextBox" HorizontalAlignment="Left" Height="23" Margin="100,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="2" Text="" TextChanged="WyszukajTextBox_TextChanged"/>
+        <Expander x:Name="Expander" HorizontalAlignment="Left" Height="706" Margin="10,159,0,0" VerticalAlignment="Top" Width="306" RenderTransformOrigin="0.5,0.5" Header="Filtry" Expanded="Expander_Expanded" Collapsed="Expander_Collapsed">
+            <Menu HorizontalAlignment="Left" Height="696" VerticalAlignment="Top" Width="296">
+                <Button Content="ASC"/>
+                <Grid Background="#FFE5E5E5" Height="724" Width="286" VirtualizingStackPanel.IsVirtualizing="False" >
+                    <StackPanel x:Name="st3" HorizontalAlignment="Left" Margin="10,10,0,10" Width="266">
+                        <ListBox x:Name="listBoxZone2" HorizontalAlignment="Left" ItemsSource="{DynamicResource TheList}" Height="698" Background="Azure">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox x:Name="CheckBoxZone2"  SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical" Content="{Binding NazwaKategorii}" IsChecked="{Binding IsChecked}" Tag="{Binding Id}" Margin="0,0,0,0" Checked="CheckBoxZone_Checked" Unchecked="CheckBoxZone_UnChecked"/>
+
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Grid>
+            </Menu>
+        </Expander>
+        <StackPanel HorizontalAlignment="Left" Height="100" Margin="-211,-222,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="NextButton" Content="N" Grid.Column="2" HorizontalAlignment="Left" Margin="288,0,0,0" VerticalAlignment="Top" Width="37" Height="19" Click="NextButton_Click"/>
+        <Button x:Name="PrevButton" Content="P" Grid.Column="2" HorizontalAlignment="Left" Margin="246,0,0,0" VerticalAlignment="Top" Width="37" Height="19" Click="PrevButton_Click" RenderTransformOrigin="0.581,-0.447"/>
+        <Label Content="Ilość produktów:" Grid.Column="2" HorizontalAlignment="Left" Margin="100,38,0,0" VerticalAlignment="Top" Width="106" Height="32"/>
+        <Label x:Name="ileProuktówLabel" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="211,38,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.329,0" Width="72" Height="32"/>
+        <Label Content="Ile stron:" Grid.Column="2" HorizontalAlignment="Left" Margin="100,70,0,0" VerticalAlignment="Top" Width="58"/>
+        <Label x:Name="ileStronLabel" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="173,70,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.342,-0.154" Width="38"/>
+        <Label Content="Strona:" Grid.Column="2" HorizontalAlignment="Left" Margin="330,1,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="KtoraStronaLabel" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="377,0,0,0" VerticalAlignment="Top" Width="94"/>
+        <TextBlock x:Name="WarningTextBlock" FontSize="10" Foreground="DarkRed" HorizontalAlignment="Left" Margin="1,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="54" Width="116" FontWeight="Bold"/>
+
+    </Grid>
+
+</Window>
