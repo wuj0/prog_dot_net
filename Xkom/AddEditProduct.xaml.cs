@@ -25,11 +25,7 @@ namespace Xkom
         public AddEditProduct()
         {
             InitializeComponent();
-        }
-
-        private void test()
-        {
-            //xkom.dodawanie_produktow("sdasdasd", Convert.ToDecimal(123), "Akcesoria", "Zasilanie", 123, 200);
+            OpisTBAdd.Text = "Brak opisu!";
         }
 
         private string IsGood()
@@ -131,23 +127,51 @@ namespace Xkom
         {
             string result = IsGood();
 
+            string defaultImage = "c:\\temp\\zdj_39741.jpg";
+
             if (result.Equals("Ok"))
             {
-                xkom.dodawanie_produktow(NameTBAdd.Text, 
-                    Convert.ToDecimal(KodTBAdd.Text), 
+                xkom.dodawanie_produktow(NameTBAdd.Text,
+                    Convert.ToDecimal(KodTBAdd.Text),
                     KategoriaTBAdd.Text,
                     PodkategoriaTBAdd.Text,
                     Convert.ToInt32(IloscTBAdd.Text),
-                    Convert.ToDouble(CenaTBAdd.Text));
+                    Convert.ToDouble(CenaTBAdd.Text),
+                    OpisTBAdd.Text,
+                    defaultImage);
+                
 
-                ErrorTB.Text = result;
+                ErrorTB.Text = "Produkt został dodany!";
             }
             else
             {
                 ErrorTB.Text = result;
             }
         }
+        private void AddDG_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e) // podczas auto generowania kolumn i wrzucaniu wierszy konwertuje path do zdjecia na zdjecie
+        {
+            if (e.PropertyName == "Zdjecie")
+            {
+                FrameworkElementFactory image = new FrameworkElementFactory(typeof(Image));
+                image.SetBinding(Image.SourceProperty, new Binding(e.PropertyName));
 
+                e.Column = new DataGridTemplateColumn
+                {
+                    CellTemplate = new DataTemplate() { VisualTree = image },
+                    Header = e.PropertyName,
+                    Width = 110
 
+                };
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!MainWindow.isClosing)
+            {
+                this.Hide();
+                e.Cancel = true;
+            }
+        }
     }
 }

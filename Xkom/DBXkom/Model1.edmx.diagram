@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7e848ebe7775497194e0e4363672f184" Name="Diagram1">
+      <Diagram DiagramId="229120e5677d4a6d9ee10877f2289bf3" Name="Diagram1">
         <EntityTypeShape EntityType="Xkom_ProjektModel.cena" Width="1.5" PointX="7.5" PointY="3.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Xkom_ProjektModel.ilosc" Width="1.5" PointX="7.5" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Xkom_ProjektModel.kategorie" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />

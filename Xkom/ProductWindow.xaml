@@ -5,28 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Xkom"
         mc:Ignorable="d"
-        Title="ProductWindow" Height="269.957" Width="791.793" Closing="ProductWindow_Closing">
+        Title="ProductWindow" Height="340.957" Width="791.793" Closing="ProductWindow_Closing">
     <DockPanel  Background="#FFD9E2DF">
         <Border DockPanel.Dock="Top" BorderBrush="black" BorderThickness="0,0,0,1">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="5*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="327*"/>
+                    <ColumnDefinition Width="130*"/>
+                    <ColumnDefinition Width="0*"/>
+                    <ColumnDefinition Width="327*"/>
                 </Grid.ColumnDefinitions>
                 <Image Source="C:\temp\szynszyl.png"
                Grid.Column="1"
-               Margin="1,1,1,1"
+               Margin="37,1,41,1"
                Height="40px"
                HorizontalAlignment="Center"
-               VerticalAlignment="Center"/>
-                <Label Name="LiveTimeLabel"
-                       Grid.Column="2"
-                       FontFamily="Lato"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Content="%TIME%"/>
+               VerticalAlignment="Center" Width="52"/>
             </Grid>
         </Border>
         <Label DockPanel.Dock="Bottom"
@@ -43,7 +37,7 @@
                     <Button x:Name="btnBuy" DockPanel.Dock="Top"
                         FontFamily="Lato"
                     Margin="1,1,1,1"
-                    Content="Buy" HorizontalAlignment="Left" 
+                    Content="Dodaj do koszyka" HorizontalAlignment="Left" 
                         VerticalAlignment="Top" Width="151" 
                         Height="73"  Background="#FFD9E2DF" Click="btnBuy_Click"/>
                     <Grid>

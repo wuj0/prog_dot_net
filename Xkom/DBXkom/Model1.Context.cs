@@ -44,7 +44,7 @@ namespace Xkom.DBXkom
         public virtual DbSet<wartosc_zamowienia> wartosc_zamowienia { get; set; }
         public virtual DbSet<zamowienie_all> zamowienie_all { get; set; }
     
-        public virtual int dodawanie_produktow(string nazwa_produktu, Nullable<decimal> kod_produktu, string kategoria, string podkategoria, Nullable<int> ilosc, Nullable<double> cena)
+        public virtual int dodawanie_produktow(string nazwa_produktu, Nullable<decimal> kod_produktu, string kategoria, string podkategoria, Nullable<int> ilosc, Nullable<double> cena, string opis, string path_do_zdj)
         {
             var nazwa_produktuParameter = nazwa_produktu != null ?
                 new ObjectParameter("nazwa_produktu", nazwa_produktu) :
@@ -70,10 +70,18 @@ namespace Xkom.DBXkom
                 new ObjectParameter("cena", cena) :
                 new ObjectParameter("cena", typeof(double));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("dodawanie_produktow", nazwa_produktuParameter, kod_produktuParameter, kategoriaParameter, podkategoriaParameter, iloscParameter, cenaParameter);
+            var opisParameter = opis != null ?
+                new ObjectParameter("opis", opis) :
+                new ObjectParameter("opis", typeof(string));
+    
+            var path_do_zdjParameter = path_do_zdj != null ?
+                new ObjectParameter("path_do_zdj", path_do_zdj) :
+                new ObjectParameter("path_do_zdj", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("dodawanie_produktow", nazwa_produktuParameter, kod_produktuParameter, kategoriaParameter, podkategoriaParameter, iloscParameter, cenaParameter, opisParameter, path_do_zdjParameter);
         }
     
-        public virtual ObjectResult<string> dodawanie_usera(string nowy_user, string haslo, string zwrotka, string imie, string nazwisko, string nip, string nazwa_firmy, string kod_pocztowy, string miasto, string telefon)
+        public virtual int dodawanie_usera(string nowy_user, string haslo, string zwrotka, string imie, string nazwisko, string nip, string nazwa_firmy, string kod_pocztowy, string miasto, string telefon)
         {
             var nowy_userParameter = nowy_user != null ?
                 new ObjectParameter("nowy_user", nowy_user) :
@@ -115,14 +123,14 @@ namespace Xkom.DBXkom
                 new ObjectParameter("telefon", telefon) :
                 new ObjectParameter("telefon", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("dodawanie_usera", nowy_userParameter, hasloParameter, zwrotkaParameter, imieParameter, nazwiskoParameter, nipParameter, nazwa_firmyParameter, kod_pocztowyParameter, miastoParameter, telefonParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("dodawanie_usera", nowy_userParameter, hasloParameter, zwrotkaParameter, imieParameter, nazwiskoParameter, nipParameter, nazwa_firmyParameter, kod_pocztowyParameter, miastoParameter, telefonParameter);
         }
     
-        public virtual int dodawanie_zamowienia(string nazwa_produktu, string mail, Nullable<decimal> ilosc)
+        public virtual int dodawanie_zamowienia(Nullable<int> id, string mail, Nullable<decimal> ilosc, Nullable<int> zamowienieId)
         {
-            var nazwa_produktuParameter = nazwa_produktu != null ?
-                new ObjectParameter("nazwa_produktu", nazwa_produktu) :
-                new ObjectParameter("nazwa_produktu", typeof(string));
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
     
             var mailParameter = mail != null ?
                 new ObjectParameter("mail", mail) :
@@ -132,7 +140,11 @@ namespace Xkom.DBXkom
                 new ObjectParameter("ilosc", ilosc) :
                 new ObjectParameter("ilosc", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("dodawanie_zamowienia", nazwa_produktuParameter, mailParameter, iloscParameter);
+            var zamowienieIdParameter = zamowienieId.HasValue ?
+                new ObjectParameter("zamowienieId", zamowienieId) :
+                new ObjectParameter("zamowienieId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("dodawanie_zamowienia", idParameter, mailParameter, iloscParameter, zamowienieIdParameter);
         }
     
         public virtual ObjectResult<string> sprawdzanie_konta(string mail, string passwd)

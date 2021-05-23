@@ -22,17 +22,22 @@ namespace Xkom
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        public static string NAME_OF_PRODUCT;
+        private int take = 10;
+        private int skip = 0;
+        int iloscProduktow = 0;
+        int ileStron = 0;
+        int ktoraStrona = 1;
+        int iloscProduktowWczesniej = 0;
         public static bool isClosing = false;
         public static Koszyk koszyk = new Koszyk();
+        public AddEditProduct add = new AddEditProduct();
         public ProductWindow pw = new ProductWindow();
         private Xkom_ProjektEntities xkom = new Xkom_ProjektEntities();
         private ObservableCollection<TestKategorie> TheList = new ObservableCollection<TestKategorie>();
         private ObservableCollection<QuerryResult> QuerryResults = new ObservableCollection<QuerryResult>();
         private List<string> checkedBox = new List<string>();
-        public static string NAME_OF_PRODUCT;
-        private int take = 10;
-        private int skip = 0;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -72,10 +77,7 @@ namespace Xkom
 
             Resources["TheList"] = TheList;
         }
-        int iloscProduktow = 0;
-        int ileStron = 0;
-        int ktoraStrona = 1;
-        int iloscProduktowWczesniej = 0;
+        
         private void ShowDB(int skip, int take) // Wyswietlenie produktów
         {
             QuerryResults.Clear();
@@ -104,6 +106,11 @@ namespace Xkom
                 {
                     skip = 0;
                     ktoraStrona = 1;
+                }
+
+                foreach (var item in threeTables)
+                {
+                    Console.WriteLine(item.NazwaProduktu);
                 }
                 if (checkedBox.Count > 0) // jesli uzytkownik wybierze dodatkowo kategorie
                 {
@@ -144,14 +151,19 @@ namespace Xkom
 
                 foreach (var item in threeTables) // iteracja wynikow zapytania do listy bindingu QuerryResults
                 {
-                    var zdjecie = new BitmapImage(new Uri(item.Zdjecie));
+                    var zdjecie = item.Zdjecie;
+                    var opishelp = item.Opis;
+                    var NazwaProduktu = item.NazwaProduktu;
+                    var CenaBrutto = item.CenaBrutto;
+                    var Kategoria = item.Kategoria + " - " + item.Podkategoria;
+                    
                     QuerryResults.Add(new QuerryResult
                     {
-                        NazwaProduktu = item.NazwaProduktu,
-                        Zdjecie = item.Zdjecie,
-                        Opis = item.Opis,
-                        Cena = item.CenaBrutto,
-                        Kategoria = item.Kategoria + " - " + item.Podkategoria
+                        NazwaProduktu = NazwaProduktu,
+                        Zdjecie = zdjecie,
+                        Opis = opishelp,
+                        Cena = CenaBrutto,
+                        Kategoria = Kategoria
                     });
                 }
             }
@@ -171,13 +183,13 @@ namespace Xkom
             
             Resources["QuerryResults"] = QuerryResults;
 
+            var asd = xkom.produkt.Where(p => p.Nazwa_produktu.Equals("asd")).FirstOrDefault();
+
+            Console.WriteLine(asd.Nazwa_produktu + " " + asd.ilosc.ToString());
 
 
-            foreach (var item in TheList)
-            {
-                string nazwa = item.NazwaKategorii;
-                Console.WriteLine(nazwa);
-            }
+
+            
         }
 
         private void SearchBtn_Click(object sender, RoutedEventArgs e) // du usniecia dziala teraz dynamicznie
@@ -290,6 +302,8 @@ namespace Xkom
             isClosing = true;
             koszyk.Close();
             pw.Close();
+            add.Close();
+            
         }
 
 
@@ -372,20 +386,9 @@ namespace Xkom
 
         private void AddWidnow_Click(object sender, RoutedEventArgs e)
         {
-            AddEditProduct add = new AddEditProduct();
+            
             add.Show();
         }
-
-        //private void LoginBTN_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var login = LoginTB.Text;
-        //    var password = PswdTB.Text;
-
-        //    var czyzalogowano = xkom.sprawdzanie_konta(login, password);
-
-        //    DaneKlientaTB.Text = czyzalogowano.FirstOrDefault().ToString(); // logowanie 
-
-        //}
 
 
     }

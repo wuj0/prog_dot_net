@@ -30,13 +30,16 @@ namespace Xkom
         private Dictionary<int, int> koszyk = ProductWindow.KOSZYK;
         private Xkom_ProjektEntities xkom = new Xkom_ProjektEntities();
         private ObservableCollection<KoszykResults> KoszykResults = new ObservableCollection<KoszykResults>();
-        
+
         private Dictionary<int, double> wartoscNettoPairs = new Dictionary<int, double>();
         private Dictionary<int, double> wartoscBruttoPairs = new Dictionary<int, double>();
-        
+
+        private string mailKlienta = "";
+
         public Koszyk()
         {
             InitializeComponent();
+            var date = DateTime.Now;
         }
 
         public void Refresh()
@@ -64,32 +67,38 @@ namespace Xkom
             foreach (var item in keys)
             {
                 var brutto = threeTables.Where(p => p.Id == item.Key).FirstOrDefault().Brutto;
+                brutto = Math.Round(brutto, 2, MidpointRounding.ToEven);
                 var netto = threeTables.Where(p => p.Id == item.Key).FirstOrDefault().Netto;
+                netto = Math.Round(netto, 2, MidpointRounding.ToEven);
                 KoszykResults.Add(new KoszykResults
                 {
                     NazwaProduktu = threeTables.Where(p => p.Id == item.Key).FirstOrDefault().NazwaProduktu,
-                    NettoPcs = threeTables.Where(p => p.Id == item.Key).FirstOrDefault().Netto,
-                    Netto = threeTables.Where(p => p.Id == item.Key).FirstOrDefault().Netto * item.Value,
-                    BruttoPcs = threeTables.Where(p => p.Id == item.Key).FirstOrDefault().Brutto,
-                    Brutto = threeTables.Where(p => p.Id == item.Key).FirstOrDefault().Brutto * item.Value,
+                    NettoPcs = netto,
+                    Netto = netto * item.Value,
+                    BruttoPcs = brutto,
+                    Brutto = brutto * item.Value,
                     Pcs = item.Value
 
                 });
                 try
                 {
-                    wartoscBruttoPairs.Add(item.Key, brutto * item.Value);
+                    wartoscBruttoPairs.Add(item.Key, Math.Round(brutto * item.Value, 2,
+                                             MidpointRounding.ToEven));
                 }
                 catch (ArgumentException)
                 {
-                    wartoscBruttoPairs[item.Key] = brutto * item.Value;
+                    wartoscBruttoPairs[item.Key] = Math.Round(brutto * item.Value, 2,
+                                             MidpointRounding.ToEven);
                 }
                 try
                 {
-                    wartoscNettoPairs.Add(item.Key, netto * item.Value);
+                    wartoscNettoPairs.Add(item.Key, Math.Round(netto * item.Value, 2,
+                                             MidpointRounding.ToEven));
                 }
                 catch (ArgumentException)
                 {
-                    wartoscNettoPairs[item.Key] = netto * item.Value;
+                    wartoscNettoPairs[item.Key] = Math.Round(netto * item.Value, 2,
+                                             MidpointRounding.ToEven);
                 }
                 buyId.Add(threeTables.Where(p => p.Id == item.Key).FirstOrDefault().Id);
                 priceId.Add(threeTables.Where(p => p.Id == item.Key).FirstOrDefault().Cid);
@@ -172,30 +181,21 @@ namespace Xkom
 
         private void BuyBtn_Click(object sender, RoutedEventArgs e)
         {
-            int numberOfLastOrder = 0;
-            try
+            if (mailKlienta.Length > 1)
             {
-                numberOfLastOrder = xkom.zamowienia.Max(z => z.zamowienie_id);
+                int numberOfLastOrder = xkom.zamowienia.Max(z => z.zamowienie_id) + 1;
+
+                foreach (var item in koszyk)
+                {
+                    
+                    xkom.dodawanie_zamowienia(item.Key, mailKlienta, item.Value, numberOfLastOrder);
+                }
             }
-            catch (InvalidOperationException)
+            else
             {
-                numberOfLastOrder = 0;
+                ErrorLog.Text = "Aby dokonać zakupu muszisz się zalogować!";
             }
 
-            int count = 0;
-            foreach (var item in koszyk)
-            {
-                zamowienia ord = new zamowienia
-                {
-                    zamowienie_id = numberOfLastOrder + 1,
-                    produkt_id = item.Key,
-                    cena_id = priceId[count],
-                    ilosc = item.Value
-                };
-                count++;
-                xkom.zamowienia.Add(ord);
-            }
-            xkom.SaveChanges();
         }
 
 
@@ -207,6 +207,36 @@ namespace Xkom
                 this.Hide();
                 e.Cancel = true;
             }
+        }
+
+        private void LoginBTN_Click(object sender, RoutedEventArgs e)
+        {
+            var email = EmailTB.Text;
+            var pswd = PswdTB.Password;
+
+            Console.WriteLine(pswd);
+
+            var result = xkom.sprawdzanie_konta(email, pswd).FirstOrDefault();
+
+            if (result.Equals("Haslo do Konta jest poprawne!"))
+            {
+                mailKlienta = email;
+                ErrorLog.Text = "Zostałeś zalogowany!";
+                EmailTB.Clear();
+                PswdTB.Clear();
+            }
+            else
+            {
+                ErrorLog.Text = "Niepoprawne dane logowania!";
+            }
+
+        }
+
+        private void LogoutBTN_Click(object sender, RoutedEventArgs e)
+        {
+            mailKlienta = "";
+
+            ErrorLog.Text = "Zostałeś wylogowany!";
         }
     }
 }

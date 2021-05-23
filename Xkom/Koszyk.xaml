@@ -10,23 +10,17 @@
         <Border DockPanel.Dock="Top" BorderBrush="black" BorderThickness="0,0,0,1" Margin="0,0,0,1">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="5*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="377*"/>
+                    <ColumnDefinition Width="150*"/>
+                    <ColumnDefinition Width="0*"/>
+                    <ColumnDefinition Width="376*"/>
                 </Grid.ColumnDefinitions>
                 <Image Source="C:\temp\szynszyl.png"
                Grid.Column="1"
-               Margin="1,1,1,1"
+               Margin="53,1,45,1"
                Height="40px"
                HorizontalAlignment="Center"
-               VerticalAlignment="Center"/>
-                <Label Name="LiveTimeLabel"
-                       Grid.Column="2"
-                       FontFamily="Lato"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Content="%TIME%"/>
+               VerticalAlignment="Center" Width="52"/>
             </Grid>
         </Border>
 
@@ -49,6 +43,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Content="Zakup"
+                        Click="BuyBtn_Click"
                         Margin="1,1,1,1"/>
                 </Grid>
                 <Grid DockPanel.Dock="Top">
@@ -93,7 +88,18 @@
                        HorizontalAlignment="Left"
                        Margin="1,1,1,1"/>
                 </Grid>
-                <Grid DockPanel.Dock="Bottom"></Grid>
+                <Grid DockPanel.Dock="Bottom">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBox x:Name="EmailTB" HorizontalAlignment="Left" Height="25" Margin="-29,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="179"/>
+                    <PasswordBox x:Name="PswdTB" HorizontalAlignment="Left" Margin="-29,188,0,0" VerticalAlignment="Top" Width="179" Height="24"/>
+                    <Label Content="E-mail:" HorizontalAlignment="Left" Margin="-96,138,0,0" VerticalAlignment="Top" Width="46"/>
+                    <Label Content="Hasło:" HorizontalAlignment="Left" Margin="-96,188,0,0" VerticalAlignment="Top" Width="46" RenderTransformOrigin="0.625,2.214"/>
+                    <Button x:Name="LoginBTN" Content="Zaloguj" HorizontalAlignment="Left" Margin="-29,217,0,0" VerticalAlignment="Top" Width="75" Click="LoginBTN_Click"/>
+                    <TextBox x:Name="ErrorLog" HorizontalAlignment="Left" Height="45" Margin="-29,242,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="179"/>
+                    <Button x:Name="LogoutBTN" Content="Wyloguj" HorizontalAlignment="Left" Margin="75,217,0,0" VerticalAlignment="Top" Width="75" Click="LogoutBTN_Click"/>
+                </Grid>
             </DockPanel>
             <DataGrid DockPanel.Dock="Left" x:Name="dGKoszyk" ItemsSource="{DynamicResource KoszykResults}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="153" Margin="10,44,0,0" VerticalAlignment="Top" Width="599" IsSynchronizedWithCurrentItem="False" SelectedIndex="1">
                 <DataGrid.Columns x:Uid="1" >

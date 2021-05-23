@@ -55,7 +55,13 @@
                          MinWidth="100px"
                          VerticalAlignment="Center"
                              TextChanged="WyszukajTextBox_TextChanged"/>
-                    <Button x:Name="AddWidnow" Content="Button" HorizontalAlignment="Left" Margin="123,10,0,0" VerticalAlignment="Top" Width="75" Click="AddWidnow_Click"/>
+                    <Button x:Name="AddWidnow" Content="Dodaj produkt" HorizontalAlignment="Left" Margin="123,10,0,0" VerticalAlignment="Top" Width="97" Click="AddWidnow_Click"/>
+                    <TextBox x:Name="WarningTextBlock"
+                         FontFamily="Lato"
+                         Foreground="Red"
+                         Padding="2,2,2,2"
+                         Background="#FFD9E2DF"
+                         HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="304" BorderThickness="0" Grid.Column="6" Margin="10,10,-11,0"/>
                 </Grid>
             </Border>
         </DockPanel>
@@ -162,16 +168,11 @@
                          Grid.Row="2"
                          Grid.Column="2"
                          Margin="1,1,1,1"/>
-                <TextBox x:Name="WarningTextBlock"
-                         FontFamily="Lato"
-                         Padding="2,2,2,2"
-                         Background="#FFD9E2DF"
-                         HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="304" BorderThickness="0"/>
             </Grid>
             <DataGrid DockPanel.Dock="Top" x:Name="dg1" ItemsSource="{DynamicResource QuerryResults}" AutoGenerateColumns="True" HorizontalAlignment="Left" Height="Auto" Margin="0,0,0,10" VerticalAlignment="Bottom" Width="Auto" AutoGeneratingColumn="dg1_AutoGeneratingColumn" IsReadOnly="True" MouseDoubleClick="dg1_MouseDoubleClick" SelectionMode="Single" Grid.Column="2">
                 <DataGrid.Columns >
                     <DataGridTextColumn Header="Nazwa produktu" Binding="{Binding NazwaProduktu}" />
-                    <DataGridTextColumn Width="310"  Header="Opis" Binding="{Binding Opis}">
+                    <DataGridTextColumn Width="*"   Header="Opis" Binding="{Binding Opis}">
                         <DataGridTextColumn.ElementStyle>
                             <Style >
                                 <Setter Property="TextBlock.TextWrapping" Value="Wrap" />

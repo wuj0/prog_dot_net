@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Xkom"
         mc:Ignorable="d"
-        Title="Dodaj/Edytuj produkt" Height="450" Width="800">
+        Title="Dodaj/Edytuj produkt" Height="450" Width="800"
+        Closing="Window_Closing">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0*"/>
@@ -18,7 +19,7 @@
                         <ColumnDefinition Width="109*"/>
                         <ColumnDefinition Width="677*"/>
                     </Grid.ColumnDefinitions>
-                    <DataGrid x:Name="AddDG" HorizontalAlignment="Left" Height="147" Margin="10,244,0,0" VerticalAlignment="Top" Width="766" Grid.ColumnSpan="2"/>
+                    <DataGrid x:Name="AddDG" HorizontalAlignment="Left" Height="147" Margin="10,244,0,0" VerticalAlignment="Top" Width="766" Grid.ColumnSpan="2" AutoGeneratingColumn="AddDG_AutoGeneratingColumn"/>
                     <Label Content="Nazwa:" HorizontalAlignment="Left" Height="29" Margin="10,6,0,0" VerticalAlignment="Top" Width="62"/>
                     <Label Content="Kod:" HorizontalAlignment="Left" Height="29" Margin="10,35,0,0" VerticalAlignment="Top" Width="46"/>
                     <Label Content="Kategoria:" Height="29" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top"/>
@@ -38,7 +39,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Edytuj produkt">
+           <!--<TabItem Header="Edytuj produkt">
                 <Grid x:Name="EditGrid" Background="Azure">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0*"/>
@@ -69,9 +70,10 @@
                         <TextBox x:Name="OpisTBEdit" Visibility="Hidden" BorderBrush="Azure" Background="Azure"  TextAlignment="Center" HorizontalAlignment="Left" Height="51" Margin="241.167,35,0,0" TextWrapping="Wrap" Text="Podaj opis produktu..." VerticalAlignment="Top" Width="343" Grid.Column="1"/>
 
                     </Grid>
-
+                    
                 </Grid>
             </TabItem>
+            -->
         </TabControl>
     </Grid>
 </Window>
