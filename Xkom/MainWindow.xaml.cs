@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -20,13 +22,13 @@ namespace Xkom
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public static bool isClosing = false;
         public static Koszyk koszyk = new Koszyk();
         public ProductWindow pw = new ProductWindow();
         private Xkom_ProjektEntities xkom = new Xkom_ProjektEntities();
         private ObservableCollection<TestKategorie> TheList = new ObservableCollection<TestKategorie>();
         private ObservableCollection<QuerryResult> QuerryResults = new ObservableCollection<QuerryResult>();
-        private Dictionary<int, TestKategorie> tescik = new Dictionary<int, TestKategorie>();
         private List<string> checkedBox = new List<string>();
         public static string NAME_OF_PRODUCT;
         private int take = 10;
@@ -37,8 +39,10 @@ namespace Xkom
             ShowCategorie();
             koszyk.Hide();
             ShowDB(skip, take);
+            var date = DateTime.Now;
+            LiveTimeLabel.Content = date;
         }
-        public void ShowCategorie()
+        public void ShowCategorie() // Wyswietlanie kategori w expanderze Binding
         {
             var show = xkom.podkategorie.Join(xkom.kategorie,
               pk => pk.kategorie_id,
@@ -52,7 +56,7 @@ namespace Xkom
               }).OrderBy(k => k.NazwaKategorie).ThenBy(pk => pk.NazwaPK);
 
             int count = 0;
-            foreach (var item in show)
+            foreach (var item in show) // iteracja wyniku zapytania na tworzenie obiektów Bindingu
             {
                 TheList.Add(new TestKategorie
                 {
@@ -64,7 +68,7 @@ namespace Xkom
             }
 
             //var result = TheList.Where(p => p.NazwaKategorii.Contains("AGD")).ToList(); //DZIALA
-            var result = TheList.OrderBy(k => k.NazwaKategorii).ToList(); //DZIALA
+            var result = TheList.OrderBy(k => k.NazwaKategorii).ToList(); //Sortowanie od A do Z
 
             Resources["TheList"] = TheList;
         }
@@ -72,11 +76,10 @@ namespace Xkom
         int ileStron = 0;
         int ktoraStrona = 1;
         int iloscProduktowWczesniej = 0;
-        private void ShowDB(int skip, int take)
+        private void ShowDB(int skip, int take) // Wyswietlenie produktów
         {
-
             QuerryResults.Clear();
-        
+
             var threeTables = from p in xkom.produkt
                               join k in xkom.kategorie on p.kategorie_id equals k.id
                               join pk in xkom.podkategorie on p.podkategorie_id equals pk.id
@@ -93,64 +96,53 @@ namespace Xkom
                                   CenaBrutto = c.cena_brutto
                               };
             iloscProduktow = threeTables.Count();
-            if (szukaj.Length > 2)
+            if (szukaj.Length > 2) // Jesli uzytkownik wpisze minimum 2 znaki do TextBoxa Wyszukiwania 
             {
                 threeTables = threeTables.Where(p => p.NazwaProduktu.Contains(szukaj.ToLower()));
                 iloscProduktow = threeTables.Count();
-                if (iloscProduktow < skip || iloscProduktowWczesniej > iloscProduktow)
+                if (iloscProduktowWczesniej < iloscProduktow || iloscProduktowWczesniej > iloscProduktow)
                 {
                     skip = 0;
                     ktoraStrona = 1;
                 }
-                if (checkedBox.Count > 0)
+                if (checkedBox.Count > 0) // jesli uzytkownik wybierze dodatkowo kategorie
                 {
                     List<string> listOfCategories = SeperateK(checkedBox);
                     List<string> listOfPK = SeperatePK(checkedBox);
                     threeTables = threeTables.Where(p => listOfCategories.Contains(p.Kategoria) && listOfPK.Contains(p.Podkategoria)).OrderBy(p => p.NazwaProduktu);
                     iloscProduktow = threeTables.Count();
-                    if (iloscProduktow < skip || iloscProduktowWczesniej > iloscProduktow)
+                    if (iloscProduktowWczesniej < iloscProduktow || iloscProduktowWczesniej > iloscProduktow)
                     {
                         skip = 0;
                         ktoraStrona = 1;
                     }
                 }
             }
-            else if (checkedBox.Count > 0)
+            else if (checkedBox.Count > 0) // jesli uzytwkonik wybierze kategorie
             {
                 List<string> listOfCategories = SeperateK(checkedBox);
                 List<string> listOfPK = SeperatePK(checkedBox);
                 threeTables = threeTables.Where(p => listOfCategories.Contains(p.Kategoria) && listOfPK.Contains(p.Podkategoria)).OrderBy(p => p.NazwaProduktu);
                 iloscProduktow = threeTables.Count();
-                if (iloscProduktow < skip || iloscProduktowWczesniej > iloscProduktow)
+                if (iloscProduktowWczesniej < iloscProduktow || iloscProduktowWczesniej > iloscProduktow)
                 {
                     skip = 0;
                     ktoraStrona = 1;
                 }
             }
-            //var lista = threeTables.GroupBy(p => p.Kategoria + " - " + p.Podkategoria).ToList();
-            //int count = 0;
-            //var kategorie = threeTables.Where(p => p.NazwaProduktu != null).Select(p => p.Kategoria + " - " + p.Podkategoria).GroupBy(p => p);
+            if (iloscProduktowWczesniej < iloscProduktow || iloscProduktowWczesniej > iloscProduktow)
+            {
+                skip = 0;
+                ktoraStrona = 1;
+            }
 
-            ////DO PRZEMYSLENIA
-
-            //foreach (var item in kategorie)
-            //{
-
-            //    TheList.Add(new TestKategorie
-            //    {
-            //        Id = count,
-            //        NazwaKategorii = item.Key.ToString()
-            //    });
-            //    count++;
-            //}
-            //Resources["TheList"] = TheList;
             threeTables = threeTables.OrderBy(p => p.Kategoria).ThenBy(n => n.Podkategoria);
             threeTables = threeTables.Skip(skip).Take(take);
 
             try
             {
 
-                foreach (var item in threeTables)
+                foreach (var item in threeTables) // iteracja wynikow zapytania do listy bindingu QuerryResults
                 {
                     var zdjecie = new BitmapImage(new Uri(item.Zdjecie));
                     QuerryResults.Add(new QuerryResult
@@ -163,23 +155,23 @@ namespace Xkom
                     });
                 }
             }
-            catch (ArgumentException)
+            catch (ArgumentException) // jesli nastapie wyjatek zwracajacy ze nie ma produktow po wrzyceniu za duzego "skipa"
             {
                 WarningTextBlock.Text = "Brak produktów";
             }
             iloscProduktowWczesniej = iloscProduktow;
-            ileProuktówLabel.Content = iloscProduktow.ToString();
+            NumberOfProductsBox.Text = iloscProduktow.ToString();
             ileStron = iloscProduktow / 10;
             if (iloscProduktow % 10 != 0)
             {
                 ileStron += 1;
             }
-            ileStronLabel.Content = ileStron.ToString();
-
-            KtoraStronaLabel.Content = ktoraStrona.ToString();
-            Resources["QuerryResults"] = QuerryResults;
+            NumberOfPagesBox.Text = ileStron.ToString();
 
             
+            Resources["QuerryResults"] = QuerryResults;
+
+
 
             foreach (var item in TheList)
             {
@@ -188,13 +180,13 @@ namespace Xkom
             }
         }
 
-        private void SearchBtn_Click(object sender, RoutedEventArgs e)
+        private void SearchBtn_Click(object sender, RoutedEventArgs e) // du usniecia dziala teraz dynamicznie
         {
             ShowDB(skip, take);
         }
 
 
-        private void dg1_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        private void dg1_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e) // podczas auto generowania kolumn i wrzucaniu wierszy konwertuje path do zdjecia na zdjecie
         {
             if (e.PropertyName == "Zdjecie")
             {
@@ -213,6 +205,8 @@ namespace Xkom
 
             }
 
+
+
             if (!(e.PropertyName == "Zdjecie"))
             {
                 e.Cancel = true;
@@ -228,7 +222,7 @@ namespace Xkom
             {
                 czytaj += item.ToString() + "\n";
             }
-            textbox1.Text = czytaj;
+            //textbox1.Text = czytaj;
             ShowDB(skip, take);
         }
         private void CheckBoxZone_UnChecked(object sender, RoutedEventArgs e)
@@ -241,7 +235,7 @@ namespace Xkom
             {
                 czytaj += item.ToString() + "\n";
             }
-            textbox1.Text = czytaj;
+            //textbox1.Text = czytaj;
             ShowDB(skip, take);
         }
 
@@ -276,64 +270,13 @@ namespace Xkom
             return result;
         }
 
-        public void ListOfCategories()
-        {
-            List<string> listOfCategories = SeperateK(checkedBox);
-            List<string> listOfPK = SeperatePK(checkedBox);
-
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Nazwa produktu");
-            dt.Columns.Add("Zdjecie");
-            dt.Columns.Add("Opis");
-            dt.Columns.Add("Cena");
-            dt.Columns.Add("Kategoria");
-
-            var naKategorie = from p in xkom.produkt
-                              join k in xkom.kategorie on p.kategorie_id equals k.id
-                              join pk in xkom.podkategorie on p.podkategorie_id equals pk.id
-                              join zdj in xkom.zdj_produktu on p.id equals zdj.produkt_id
-                              join c in xkom.cena on p.id equals c.produkt_id
-                              join opis in xkom.produkt_opis on p.id equals opis.produkt_id
-                              where listOfCategories.Contains(k.nazwa_kategorii) && listOfPK.Contains(pk.nazwa_podkategorii)
-                              select new
-                              {
-                                  NazwaProduktu = p.Nazwa_produktu,
-                                  Zdjecie = zdj.path_do_zdj,
-                                  Opis = opis.opis,
-                                  Kategoria = k.nazwa_kategorii,
-                                  Podkategoria = pk.nazwa_podkategorii,
-                                  CenaBrutto = c.cena_brutto
-                              };
-            foreach (var item in naKategorie)
-            {
-                DataRow dr = dt.NewRow();
-
-                dr["Nazwa produktu"] = item.NazwaProduktu;
-                dr["Zdjecie"] = item.Zdjecie;
-                string Opis = item.Opis;
-                var opsTab = Opis.Split(',');
-                StringBuilder sb = new StringBuilder();
-                foreach (var tekst in opsTab)
-                {
-                    sb.Append(tekst.Trim() + "\n");
-                }
-
-                dr["Opis"] = sb.ToString();
-                dr["Cena"] = item.CenaBrutto;
-                dr["Kategoria"] = item.Kategoria + " " + item.Podkategoria;
-
-                dt.Rows.Add(dr);
-            }
-            dg1.ItemsSource = dt.DefaultView;
-        }
-
         private void dg1_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (dg1.SelectedItem != null)
             {
                 QuerryResult querry = (QuerryResult)dg1.SelectedItem;
                 NAME_OF_PRODUCT = querry.NazwaProduktu;
-                
+
                 pw.Show();
             }
         }
@@ -347,22 +290,6 @@ namespace Xkom
             isClosing = true;
             koszyk.Close();
             pw.Close();
-        }
-
-        private void Expander_Expanded(object sender, RoutedEventArgs e)
-        {
-            Thickness margin = dg1.Margin;
-            margin.Left = 365;
-            dg1.Width -= 45;
-            dg1.Margin = margin;
-        }
-
-        private void Expander_Collapsed(object sender, RoutedEventArgs e)
-        {
-            Thickness margin = dg1.Margin;
-            margin.Left = 320;
-            dg1.Width += 45;
-            dg1.Margin = margin;
         }
 
 
@@ -381,14 +308,15 @@ namespace Xkom
                 ShowDB(skip, take);
             }
 
-            
+
         }
 
         private void PrevButton_Click(object sender, RoutedEventArgs e)
         {
-            if (skip == 0)
+            if (skip < 10)
             {
-                ShowDB(0, take);
+                skip = 0;
+                ShowDB(skip, take);
                 WarningTextBlock.Text = "Jesteś na pierwszej stronie!";
             }
             else
@@ -411,7 +339,6 @@ namespace Xkom
             }
             if (search.Length < 1)
             {
-                checkedBox.Clear();
                 szukaj = "";
                 ShowDB(skip, take);
             }
@@ -419,7 +346,7 @@ namespace Xkom
 
         private string isDigit()
         {
-            Regex regex = new Regex("^[0-9A-Za-z ]+$");
+            //Regex regex = new Regex("^[0-9A-Za-z ]+$");
             Regex regex1 = new Regex("^[\\w ]+$");
 
             if (regex1.IsMatch(WyszukajTextBox.Text))
@@ -429,11 +356,38 @@ namespace Xkom
             else
             {
                 WarningTextBlock.Text = "Akcpetowalne są tylko liczby i litery";
-                return WyszukajTextBox.Text = "";
+                int cos1 = WyszukajTextBox.Text.Length;
+                string cos = "";
+                try
+                {
+                    cos = WyszukajTextBox.Text.Remove(cos1 - 1, 1);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                }
+                
+                return WyszukajTextBox.Text = cos;
             }
         }
 
-        
+        private void AddWidnow_Click(object sender, RoutedEventArgs e)
+        {
+            AddEditProduct add = new AddEditProduct();
+            add.Show();
+        }
+
+        //private void LoginBTN_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var login = LoginTB.Text;
+        //    var password = PswdTB.Text;
+
+        //    var czyzalogowano = xkom.sprawdzanie_konta(login, password);
+
+        //    DaneKlientaTB.Text = czyzalogowano.FirstOrDefault().ToString(); // logowanie 
+
+        //}
+
+
     }
 }
 

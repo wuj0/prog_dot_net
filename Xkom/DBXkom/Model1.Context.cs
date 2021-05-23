@@ -32,16 +32,46 @@ namespace Xkom.DBXkom
         public virtual DbSet<kategorie> kategorie { get; set; }
         public virtual DbSet<klient> klient { get; set; }
         public virtual DbSet<klient_konto> klient_konto { get; set; }
-        public virtual DbSet<koszyk> koszyk { get; set; }
         public virtual DbSet<podkategorie> podkategorie { get; set; }
         public virtual DbSet<produkt> produkt { get; set; }
         public virtual DbSet<produkt_opis> produkt_opis { get; set; }
         public virtual DbSet<status_platnosci> status_platnosci { get; set; }
+        public virtual DbSet<status_zamowienia> status_zamowienia { get; set; }
         public virtual DbSet<zamowienia> zamowienia { get; set; }
         public virtual DbSet<zdj_produktu> zdj_produktu { get; set; }
         public virtual DbSet<produkt_all> produkt_all { get; set; }
+        public virtual DbSet<status_koszykow> status_koszykow { get; set; }
         public virtual DbSet<wartosc_zamowienia> wartosc_zamowienia { get; set; }
         public virtual DbSet<zamowienie_all> zamowienie_all { get; set; }
+    
+        public virtual int dodawanie_produktow(string nazwa_produktu, Nullable<decimal> kod_produktu, string kategoria, string podkategoria, Nullable<int> ilosc, Nullable<double> cena)
+        {
+            var nazwa_produktuParameter = nazwa_produktu != null ?
+                new ObjectParameter("nazwa_produktu", nazwa_produktu) :
+                new ObjectParameter("nazwa_produktu", typeof(string));
+    
+            var kod_produktuParameter = kod_produktu.HasValue ?
+                new ObjectParameter("kod_produktu", kod_produktu) :
+                new ObjectParameter("kod_produktu", typeof(decimal));
+    
+            var kategoriaParameter = kategoria != null ?
+                new ObjectParameter("kategoria", kategoria) :
+                new ObjectParameter("kategoria", typeof(string));
+    
+            var podkategoriaParameter = podkategoria != null ?
+                new ObjectParameter("podkategoria", podkategoria) :
+                new ObjectParameter("podkategoria", typeof(string));
+    
+            var iloscParameter = ilosc.HasValue ?
+                new ObjectParameter("ilosc", ilosc) :
+                new ObjectParameter("ilosc", typeof(int));
+    
+            var cenaParameter = cena.HasValue ?
+                new ObjectParameter("cena", cena) :
+                new ObjectParameter("cena", typeof(double));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("dodawanie_produktow", nazwa_produktuParameter, kod_produktuParameter, kategoriaParameter, podkategoriaParameter, iloscParameter, cenaParameter);
+        }
     
         public virtual ObjectResult<string> dodawanie_usera(string nowy_user, string haslo, string zwrotka, string imie, string nazwisko, string nip, string nazwa_firmy, string kod_pocztowy, string miasto, string telefon)
         {
@@ -86,6 +116,36 @@ namespace Xkom.DBXkom
                 new ObjectParameter("telefon", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("dodawanie_usera", nowy_userParameter, hasloParameter, zwrotkaParameter, imieParameter, nazwiskoParameter, nipParameter, nazwa_firmyParameter, kod_pocztowyParameter, miastoParameter, telefonParameter);
+        }
+    
+        public virtual int dodawanie_zamowienia(string nazwa_produktu, string mail, Nullable<decimal> ilosc)
+        {
+            var nazwa_produktuParameter = nazwa_produktu != null ?
+                new ObjectParameter("nazwa_produktu", nazwa_produktu) :
+                new ObjectParameter("nazwa_produktu", typeof(string));
+    
+            var mailParameter = mail != null ?
+                new ObjectParameter("mail", mail) :
+                new ObjectParameter("mail", typeof(string));
+    
+            var iloscParameter = ilosc.HasValue ?
+                new ObjectParameter("ilosc", ilosc) :
+                new ObjectParameter("ilosc", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("dodawanie_zamowienia", nazwa_produktuParameter, mailParameter, iloscParameter);
+        }
+    
+        public virtual ObjectResult<string> sprawdzanie_konta(string mail, string passwd)
+        {
+            var mailParameter = mail != null ?
+                new ObjectParameter("mail", mail) :
+                new ObjectParameter("mail", typeof(string));
+    
+            var passwdParameter = passwd != null ?
+                new ObjectParameter("passwd", passwd) :
+                new ObjectParameter("passwd", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sprawdzanie_konta", mailParameter, passwdParameter);
         }
     }
 }

@@ -9,10 +9,10 @@ namespace Xkom
     class KoszykResults
     {
         public string NazwaProduktu { get; set; }
-        public double? NettoPcs { get; set; }
-        public double? Netto { get; set; }
-        public decimal BruttoPcs { get; set; }
-        public decimal Brutto { get; set; }
+        public double NettoPcs { get; set; }
+        public double Netto { get; set; }
+        public double BruttoPcs { get; set; }
+        public double Brutto { get; set; }
         public int Pcs { get; set; }
 
         public override bool Equals(object obj)

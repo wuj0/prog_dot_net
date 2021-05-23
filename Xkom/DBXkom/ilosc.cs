@@ -16,7 +16,7 @@ namespace Xkom.DBXkom
     {
         public int id { get; set; }
         public int produkt_id { get; set; }
-        public byte ilosc1 { get; set; }
+        public int ilosc1 { get; set; }
     
         public virtual produkt produkt { get; set; }
     }

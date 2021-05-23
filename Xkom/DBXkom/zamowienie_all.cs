@@ -16,9 +16,9 @@ namespace Xkom.DBXkom
     {
         public int Numer_Zamówienia { get; set; }
         public string Nazwa_Produktu { get; set; }
-        public Nullable<decimal> Cena_Jednostkowa_Brutto { get; set; }
+        public Nullable<double> Cena_Jednostkowa_Brutto { get; set; }
         public Nullable<double> Cena_Całkowita_Brutto { get; set; }
         public Nullable<double> Cena_Całkowita_Netto { get; set; }
-        public Nullable<int> Ilość { get; set; }
+        public int Ilość { get; set; }
     }
 }

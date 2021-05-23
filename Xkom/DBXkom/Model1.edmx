@@ -11,10 +11,10 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="produkt_id" Type="int" />
-          <Property Name="cena_brutto" Type="money" Nullable="false" />
+          <Property Name="cena_brutto" Type="float" Nullable="false" />
           <Property Name="stawka_vat" Type="float" Nullable="false" />
-          <Property Name="cena_netto" Type="float" StoreGeneratedPattern="Computed" />
-          <Property Name="Wartosc_netto" Type="float" StoreGeneratedPattern="Computed" />
+          <Property Name="cena_netto" Type="float" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Wartosc_netto" Type="float" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <EntityType Name="ilosc">
           <Key>
@@ -22,7 +22,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="produkt_id" Type="int" Nullable="false" />
-          <Property Name="ilosc" Type="tinyint" Nullable="false" />
+          <Property Name="ilosc" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="kategorie">
           <Key>
@@ -52,17 +52,8 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="mail" Type="nvarchar" MaxLength="32" Nullable="false" />
           <Property Name="haslo" Type="binary" MaxLength="256" Nullable="false" />
-          <Property Name="sol" Type="uniqueidentifier" />
-          <Property Name="klient_id" Type="int" />
-        </EntityType>
-        <EntityType Name="koszyk">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="id_zamowienia" Type="int" Nullable="false" />
-          <Property Name="id_klienta" Type="int" Nullable="false" />
-          <Property Name="status_platnosci" Type="int" Nullable="false" />
+          <Property Name="sol" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="klient_id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="podkategorie">
           <Key>
@@ -87,7 +78,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="produkt_id" Type="int" />
+          <Property Name="produkt_id" Type="int" Nullable="false" />
           <Property Name="opis" Type="text" />
         </EntityType>
         <EntityType Name="status_platnosci">
@@ -97,6 +88,13 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="status_platnosci" Type="varchar" MaxLength="21" />
         </EntityType>
+        <EntityType Name="status_zamowienia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nazwa_statusu_zamowienia" Type="varchar" MaxLength="32" Nullable="false" />
+        </EntityType>
         <EntityType Name="zamowienia">
           <Key>
             <PropertyRef Name="id" />
@@ -105,7 +103,10 @@
           <Property Name="zamowienie_id" Type="int" Nullable="false" />
           <Property Name="produkt_id" Type="int" Nullable="false" />
           <Property Name="cena_id" Type="int" Nullable="false" />
-          <Property Name="ilosc" Type="int" />
+          <Property Name="ilosc" Type="int" Nullable="false" />
+          <Property Name="id_klienta" Type="int" Nullable="false" />
+          <Property Name="status_platnosci_id" Type="int" Nullable="false" />
+          <Property Name="status_zamowienia_id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="zdj_produktu">
           <Key>
@@ -113,7 +114,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="produkt_id" Type="int" Nullable="false" />
-          <Property Name="path_do_zdj" Type="text" />
+          <Property Name="path_do_zdj" Type="varchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6013: The table/view 'Xkom_Projekt.dbo.kategorie_all' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
@@ -131,9 +132,26 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.produkt_all' does not have a prim
           <Property Name="Opis Produktu" Type="text" />
           <Property Name="Kategoria" Type="varchar" MaxLength="64" />
           <Property Name="Podkategoria" Type="varchar" MaxLength="64" />
-          <Property Name="Cena Brutto" Type="money" />
+          <Property Name="Cena Brutto" Type="float" />
           <Property Name="Cena Netto" Type="float" />
           <Property Name="Stawka Vat" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Xkom_Projekt.dbo.status_koszykow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="status_koszykow">
+          <Key>
+            <PropertyRef Name="ilosc" />
+            <PropertyRef Name="zamowienie_id" />
+          </Key>
+          <Property Name="mail" Type="varchar" MaxLength="320" />
+          <Property Name="telefon" Type="varchar" MaxLength="11" />
+          <Property Name="nazwa_produktu" Type="varchar" MaxLength="128" />
+          <Property Name="cena_brutto" Type="float" />
+          <Property Name="ilosc" Type="int" Nullable="false" />
+          <Property Name="wartosc" Type="float" />
+          <Property Name="status_platnosci" Type="varchar" MaxLength="21" />
+          <Property Name="nazwa_statusu_zamowienia" Type="varchar" MaxLength="32" />
+          <Property Name="zamowienie_id" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'Xkom_Projekt.dbo.wartosc_zamowienia' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -151,13 +169,14 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
         <EntityType Name="zamowienie_all">
           <Key>
             <PropertyRef Name="Numer Zamówienia" />
+            <PropertyRef Name="Ilość" />
           </Key>
           <Property Name="Numer Zamówienia" Type="int" Nullable="false" />
           <Property Name="Nazwa Produktu" Type="varchar" MaxLength="128" />
-          <Property Name="Cena Jednostkowa Brutto" Type="money" />
+          <Property Name="Cena Jednostkowa Brutto" Type="float" />
           <Property Name="Cena Całkowita Brutto" Type="float" />
           <Property Name="Cena Całkowita Netto" Type="float" />
-          <Property Name="Ilość" Type="int" />
+          <Property Name="Ilość" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK__cena__produkt_id__300424B4">
           <End Role="produkt" Type="Self.produkt" Multiplicity="0..1" />
@@ -184,7 +203,7 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__klient_ko__klien__4222D4EF">
-          <End Role="klient" Type="Self.klient" Multiplicity="0..1" />
+          <End Role="klient" Type="Self.klient" Multiplicity="1" />
           <End Role="klient_konto" Type="Self.klient_konto" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="klient">
@@ -192,42 +211,6 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
             </Principal>
             <Dependent Role="klient_konto">
               <PropertyRef Name="klient_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__koszyk__id_klien__3E52440B">
-          <End Role="klient" Type="Self.klient" Multiplicity="1" />
-          <End Role="koszyk" Type="Self.koszyk" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="klient">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="koszyk">
-              <PropertyRef Name="id_klienta" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__koszyk__id_zamow__3D5E1FD2">
-          <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="1" />
-          <End Role="koszyk" Type="Self.koszyk" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="zamowienia">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="koszyk">
-              <PropertyRef Name="id_zamowienia" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__koszyk__status_p__3F466844">
-          <End Role="status_platnosci" Type="Self.status_platnosci" Multiplicity="1" />
-          <End Role="koszyk" Type="Self.koszyk" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="status_platnosci">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="koszyk">
-              <PropertyRef Name="status_platnosci" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -268,7 +251,7 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__produkt_o__produ__44FF419A">
-          <End Role="produkt" Type="Self.produkt" Multiplicity="0..1" />
+          <End Role="produkt" Type="Self.produkt" Multiplicity="1" />
           <End Role="produkt_opis" Type="Self.produkt_opis" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="produkt">
@@ -279,7 +262,7 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__zamowieni__cena___33D4B598">
+        <Association Name="FK__zamowieni__cena___398D8EEE">
           <End Role="cena" Type="Self.cena" Multiplicity="1" />
           <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="*" />
           <ReferentialConstraint>
@@ -291,7 +274,19 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__zamowieni__produ__32E0915F">
+        <Association Name="FK__zamowieni__id_kl__3A81B327">
+          <End Role="klient" Type="Self.klient" Multiplicity="1" />
+          <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="klient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="zamowienia">
+              <PropertyRef Name="id_klienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zamowieni__produ__38996AB5">
           <End Role="produkt" Type="Self.produkt" Multiplicity="1" />
           <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="*" />
           <ReferentialConstraint>
@@ -303,7 +298,31 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__zdj_produ__produ__38996AB5">
+        <Association Name="FK__zamowieni__statu__3B75D760">
+          <End Role="status_platnosci" Type="Self.status_platnosci" Multiplicity="1" />
+          <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status_platnosci">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="zamowienia">
+              <PropertyRef Name="status_platnosci_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zamowieni__statu__3C69FB99">
+          <End Role="status_zamowienia" Type="Self.status_zamowienia" Multiplicity="1" />
+          <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status_zamowienia">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="zamowienia">
+              <PropertyRef Name="status_zamowienia_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zdj_produ__produ__3F466844">
           <End Role="produkt" Type="Self.produkt" Multiplicity="1" />
           <End Role="zdj_produktu" Type="Self.zdj_produktu" Multiplicity="*" />
           <ReferentialConstraint>
@@ -315,6 +334,14 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="dodawanie_produktow" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nazwa_produktu" Type="varchar" Mode="In" />
+          <Parameter Name="kod_produktu" Type="decimal" Mode="In" />
+          <Parameter Name="kategoria" Type="varchar" Mode="In" />
+          <Parameter Name="podkategoria" Type="varchar" Mode="In" />
+          <Parameter Name="ilosc" Type="int" Mode="In" />
+          <Parameter Name="cena" Type="float" Mode="In" />
+        </Function>
         <Function Name="dodawanie_usera" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="nowy_user" Type="nvarchar" Mode="In" />
           <Parameter Name="haslo" Type="varchar" Mode="In" />
@@ -327,17 +354,26 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
           <Parameter Name="miasto" Type="varchar" Mode="In" />
           <Parameter Name="telefon" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="dodawanie_zamowienia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nazwa_produktu" Type="varchar" Mode="In" />
+          <Parameter Name="mail" Type="varchar" Mode="In" />
+          <Parameter Name="ilosc" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="sprawdzanie_konta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="mail" Type="varchar" Mode="In" />
+          <Parameter Name="passwd" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="Xkom_ProjektModelStoreContainer">
           <EntitySet Name="cena" EntityType="Self.cena" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ilosc" EntityType="Self.ilosc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="kategorie" EntityType="Self.kategorie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="klient" EntityType="Self.klient" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="klient_konto" EntityType="Self.klient_konto" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="koszyk" EntityType="Self.koszyk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="podkategorie" EntityType="Self.podkategorie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="produkt" EntityType="Self.produkt" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="produkt_opis" EntityType="Self.produkt_opis" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="status_platnosci" EntityType="Self.status_platnosci" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="status_zamowienia" EntityType="Self.status_zamowienia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="zamowienia" EntityType="Self.zamowienia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="zdj_produktu" EntityType="Self.zdj_produktu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="produkt_all" EntityType="Self.produkt_all" store:Type="Views" store:Schema="dbo">
@@ -350,6 +386,19 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
     [produkt_all].[Cena Netto] AS [Cena Netto], 
     [produkt_all].[Stawka Vat] AS [Stawka Vat]
     FROM [dbo].[produkt_all] AS [produkt_all]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="status_koszykow" EntityType="Self.status_koszykow" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [status_koszykow].[mail] AS [mail], 
+    [status_koszykow].[telefon] AS [telefon], 
+    [status_koszykow].[nazwa_produktu] AS [nazwa_produktu], 
+    [status_koszykow].[cena_brutto] AS [cena_brutto], 
+    [status_koszykow].[ilosc] AS [ilosc], 
+    [status_koszykow].[wartosc] AS [wartosc], 
+    [status_koszykow].[status_platnosci] AS [status_platnosci], 
+    [status_koszykow].[nazwa_statusu_zamowienia] AS [nazwa_statusu_zamowienia], 
+    [status_koszykow].[zamowienie_id] AS [zamowienie_id]
+    FROM [dbo].[status_koszykow] AS [status_koszykow]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="wartosc_zamowienia" EntityType="Self.wartosc_zamowienia" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -381,18 +430,6 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
             <End Role="klient" EntitySet="klient" />
             <End Role="klient_konto" EntitySet="klient_konto" />
           </AssociationSet>
-          <AssociationSet Name="FK__koszyk__id_klien__3E52440B" Association="Self.FK__koszyk__id_klien__3E52440B">
-            <End Role="klient" EntitySet="klient" />
-            <End Role="koszyk" EntitySet="koszyk" />
-          </AssociationSet>
-          <AssociationSet Name="FK__koszyk__id_zamow__3D5E1FD2" Association="Self.FK__koszyk__id_zamow__3D5E1FD2">
-            <End Role="zamowienia" EntitySet="zamowienia" />
-            <End Role="koszyk" EntitySet="koszyk" />
-          </AssociationSet>
-          <AssociationSet Name="FK__koszyk__status_p__3F466844" Association="Self.FK__koszyk__status_p__3F466844">
-            <End Role="status_platnosci" EntitySet="status_platnosci" />
-            <End Role="koszyk" EntitySet="koszyk" />
-          </AssociationSet>
           <AssociationSet Name="FK__podkatego__kateg__267ABA7A" Association="Self.FK__podkatego__kateg__267ABA7A">
             <End Role="kategorie" EntitySet="kategorie" />
             <End Role="podkategorie" EntitySet="podkategorie" />
@@ -409,15 +446,27 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
             <End Role="produkt" EntitySet="produkt" />
             <End Role="produkt_opis" EntitySet="produkt_opis" />
           </AssociationSet>
-          <AssociationSet Name="FK__zamowieni__cena___33D4B598" Association="Self.FK__zamowieni__cena___33D4B598">
+          <AssociationSet Name="FK__zamowieni__cena___398D8EEE" Association="Self.FK__zamowieni__cena___398D8EEE">
             <End Role="cena" EntitySet="cena" />
             <End Role="zamowienia" EntitySet="zamowienia" />
           </AssociationSet>
-          <AssociationSet Name="FK__zamowieni__produ__32E0915F" Association="Self.FK__zamowieni__produ__32E0915F">
+          <AssociationSet Name="FK__zamowieni__id_kl__3A81B327" Association="Self.FK__zamowieni__id_kl__3A81B327">
+            <End Role="klient" EntitySet="klient" />
+            <End Role="zamowienia" EntitySet="zamowienia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zamowieni__produ__38996AB5" Association="Self.FK__zamowieni__produ__38996AB5">
             <End Role="produkt" EntitySet="produkt" />
             <End Role="zamowienia" EntitySet="zamowienia" />
           </AssociationSet>
-          <AssociationSet Name="FK__zdj_produ__produ__38996AB5" Association="Self.FK__zdj_produ__produ__38996AB5">
+          <AssociationSet Name="FK__zamowieni__statu__3B75D760" Association="Self.FK__zamowieni__statu__3B75D760">
+            <End Role="status_platnosci" EntitySet="status_platnosci" />
+            <End Role="zamowienia" EntitySet="zamowienia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zamowieni__statu__3C69FB99" Association="Self.FK__zamowieni__statu__3C69FB99">
+            <End Role="status_zamowienia" EntitySet="status_zamowienia" />
+            <End Role="zamowienia" EntitySet="zamowienia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zdj_produ__produ__3F466844" Association="Self.FK__zdj_produ__produ__3F466844">
             <End Role="produkt" EntitySet="produkt" />
             <End Role="zdj_produktu" EntitySet="zdj_produktu" />
           </AssociationSet>
@@ -433,12 +482,12 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="produkt_id" Type="Int32" />
-          <Property Name="cena_brutto" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="cena_brutto" Type="Double" Nullable="false" />
           <Property Name="stawka_vat" Type="Double" Nullable="false" />
-          <Property Name="cena_netto" Type="Double" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="Wartosc_netto" Type="Double" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="cena_netto" Type="Double" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Wartosc_netto" Type="Double" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="produkt" Relationship="Self.FK__cena__produkt_id__300424B4" FromRole="cena" ToRole="produkt" />
-          <NavigationProperty Name="zamowienia" Relationship="Self.FK__zamowieni__cena___33D4B598" FromRole="cena" ToRole="zamowienia" />
+          <NavigationProperty Name="zamowienia" Relationship="Self.FK__zamowieni__cena___398D8EEE" FromRole="cena" ToRole="zamowienia" />
         </EntityType>
         <EntityType Name="ilosc">
           <Key>
@@ -446,7 +495,7 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="produkt_id" Type="Int32" Nullable="false" />
-          <Property Name="ilosc1" Type="Byte" Nullable="false" />
+          <Property Name="ilosc1" Type="Int32" Nullable="false" />
           <NavigationProperty Name="produkt" Relationship="Self.FK__ilosc__produkt_i__2D27B809" FromRole="ilosc" ToRole="produkt" />
         </EntityType>
         <EntityType Name="kategorie">
@@ -472,7 +521,7 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
           <Property Name="mail" Type="String" MaxLength="320" FixedLength="false" Unicode="false" />
           <Property Name="telefon" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="klient_konto" Relationship="Self.FK__klient_ko__klien__4222D4EF" FromRole="klient" ToRole="klient_konto" />
-          <NavigationProperty Name="koszyk" Relationship="Self.FK__koszyk__id_klien__3E52440B" FromRole="klient" ToRole="koszyk" />
+          <NavigationProperty Name="zamowienia" Relationship="Self.FK__zamowieni__id_kl__3A81B327" FromRole="klient" ToRole="zamowienia" />
         </EntityType>
         <EntityType Name="klient_konto">
           <Key>
@@ -481,21 +530,9 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="mail" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="haslo" Type="Binary" MaxLength="256" FixedLength="true" Nullable="false" />
-          <Property Name="sol" Type="Guid" />
-          <Property Name="klient_id" Type="Int32" />
+          <Property Name="sol" Type="Guid" Nullable="false" />
+          <Property Name="klient_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="klient" Relationship="Self.FK__klient_ko__klien__4222D4EF" FromRole="klient_konto" ToRole="klient" />
-        </EntityType>
-        <EntityType Name="koszyk">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_zamowienia" Type="Int32" Nullable="false" />
-          <Property Name="id_klienta" Type="Int32" Nullable="false" />
-          <Property Name="status_platnosci" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="klient" Relationship="Self.FK__koszyk__id_klien__3E52440B" FromRole="koszyk" ToRole="klient" />
-          <NavigationProperty Name="zamowienia" Relationship="Self.FK__koszyk__id_zamow__3D5E1FD2" FromRole="koszyk" ToRole="zamowienia" />
-          <NavigationProperty Name="status_platnosci1" Relationship="Self.FK__koszyk__status_p__3F466844" FromRole="koszyk" ToRole="status_platnosci" />
         </EntityType>
         <EntityType Name="podkategorie">
           <Key>
@@ -521,15 +558,15 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
           <NavigationProperty Name="kategorie" Relationship="Self.FK__produkt__kategor__29572725" FromRole="produkt" ToRole="kategorie" />
           <NavigationProperty Name="podkategorie" Relationship="Self.FK__produkt__podkate__2A4B4B5E" FromRole="produkt" ToRole="podkategorie" />
           <NavigationProperty Name="produkt_opis" Relationship="Self.FK__produkt_o__produ__44FF419A" FromRole="produkt" ToRole="produkt_opis" />
-          <NavigationProperty Name="zamowienia" Relationship="Self.FK__zamowieni__produ__32E0915F" FromRole="produkt" ToRole="zamowienia" />
-          <NavigationProperty Name="zdj_produktu" Relationship="Self.FK__zdj_produ__produ__38996AB5" FromRole="produkt" ToRole="zdj_produktu" />
+          <NavigationProperty Name="zamowienia" Relationship="Self.FK__zamowieni__produ__38996AB5" FromRole="produkt" ToRole="zamowienia" />
+          <NavigationProperty Name="zdj_produktu" Relationship="Self.FK__zdj_produ__produ__3F466844" FromRole="produkt" ToRole="zdj_produktu" />
         </EntityType>
         <EntityType Name="produkt_opis">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="produkt_id" Type="Int32" />
+          <Property Name="produkt_id" Type="Int32" Nullable="false" />
           <Property Name="opis" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="produkt" Relationship="Self.FK__produkt_o__produ__44FF419A" FromRole="produkt_opis" ToRole="produkt" />
         </EntityType>
@@ -539,7 +576,15 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="status_platnosci1" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="koszyk" Relationship="Self.FK__koszyk__status_p__3F466844" FromRole="status_platnosci" ToRole="koszyk" />
+          <NavigationProperty Name="zamowienia" Relationship="Self.FK__zamowieni__statu__3B75D760" FromRole="status_platnosci" ToRole="zamowienia" />
+        </EntityType>
+        <EntityType Name="status_zamowienia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nazwa_statusu_zamowienia" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="zamowienia" Relationship="Self.FK__zamowieni__statu__3C69FB99" FromRole="status_zamowienia" ToRole="zamowienia" />
         </EntityType>
         <EntityType Name="zamowienia">
           <Key>
@@ -549,10 +594,15 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
           <Property Name="zamowienie_id" Type="Int32" Nullable="false" />
           <Property Name="produkt_id" Type="Int32" Nullable="false" />
           <Property Name="cena_id" Type="Int32" Nullable="false" />
-          <Property Name="ilosc" Type="Int32" />
-          <NavigationProperty Name="cena" Relationship="Self.FK__zamowieni__cena___33D4B598" FromRole="zamowienia" ToRole="cena" />
-          <NavigationProperty Name="koszyk" Relationship="Self.FK__koszyk__id_zamow__3D5E1FD2" FromRole="zamowienia" ToRole="koszyk" />
-          <NavigationProperty Name="produkt" Relationship="Self.FK__zamowieni__produ__32E0915F" FromRole="zamowienia" ToRole="produkt" />
+          <Property Name="ilosc" Type="Int32" Nullable="false" />
+          <Property Name="id_klienta" Type="Int32" Nullable="false" />
+          <Property Name="status_platnosci_id" Type="Int32" Nullable="false" />
+          <Property Name="status_zamowienia_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="cena" Relationship="Self.FK__zamowieni__cena___398D8EEE" FromRole="zamowienia" ToRole="cena" />
+          <NavigationProperty Name="klient" Relationship="Self.FK__zamowieni__id_kl__3A81B327" FromRole="zamowienia" ToRole="klient" />
+          <NavigationProperty Name="produkt" Relationship="Self.FK__zamowieni__produ__38996AB5" FromRole="zamowienia" ToRole="produkt" />
+          <NavigationProperty Name="status_platnosci" Relationship="Self.FK__zamowieni__statu__3B75D760" FromRole="zamowienia" ToRole="status_platnosci" />
+          <NavigationProperty Name="status_zamowienia" Relationship="Self.FK__zamowieni__statu__3C69FB99" FromRole="zamowienia" ToRole="status_zamowienia" />
         </EntityType>
         <EntityType Name="zdj_produktu">
           <Key>
@@ -560,8 +610,8 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="produkt_id" Type="Int32" Nullable="false" />
-          <Property Name="path_do_zdj" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="produkt" Relationship="Self.FK__zdj_produ__produ__38996AB5" FromRole="zdj_produktu" ToRole="produkt" />
+          <Property Name="path_do_zdj" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="produkt" Relationship="Self.FK__zdj_produ__produ__3F466844" FromRole="zdj_produktu" ToRole="produkt" />
         </EntityType>
         <EntityType Name="produkt_all">
           <Key>
@@ -571,9 +621,24 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
           <Property Name="Opis_Produktu" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Kategoria" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
           <Property Name="Podkategoria" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
-          <Property Name="Cena_Brutto" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Cena_Brutto" Type="Double" />
           <Property Name="Cena_Netto" Type="Double" />
           <Property Name="Stawka_Vat" Type="Int32" />
+        </EntityType>
+        <EntityType Name="status_koszykow">
+          <Key>
+            <PropertyRef Name="ilosc" />
+            <PropertyRef Name="zamowienie_id" />
+          </Key>
+          <Property Name="mail" Type="String" MaxLength="320" FixedLength="false" Unicode="false" />
+          <Property Name="telefon" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="nazwa_produktu" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="cena_brutto" Type="Double" />
+          <Property Name="ilosc" Type="Int32" Nullable="false" />
+          <Property Name="wartosc" Type="Double" />
+          <Property Name="status_platnosci" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+          <Property Name="nazwa_statusu_zamowienia" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="zamowienie_id" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="wartosc_zamowienia">
           <Key>
@@ -587,13 +652,14 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
         <EntityType Name="zamowienie_all">
           <Key>
             <PropertyRef Name="Numer_Zamówienia" />
+            <PropertyRef Name="Ilość" />
           </Key>
           <Property Name="Numer_Zamówienia" Type="Int32" Nullable="false" />
           <Property Name="Nazwa_Produktu" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="Cena_Jednostkowa_Brutto" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Cena_Jednostkowa_Brutto" Type="Double" />
           <Property Name="Cena_Całkowita_Brutto" Type="Double" />
           <Property Name="Cena_Całkowita_Netto" Type="Double" />
-          <Property Name="Ilość" Type="Int32" />
+          <Property Name="Ilość" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK__cena__produkt_id__300424B4">
           <End Role="produkt" Type="Self.produkt" Multiplicity="0..1" />
@@ -607,7 +673,7 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__zamowieni__cena___33D4B598">
+        <Association Name="FK__zamowieni__cena___398D8EEE">
           <End Role="cena" Type="Self.cena" Multiplicity="1" />
           <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="*" />
           <ReferentialConstraint>
@@ -656,7 +722,7 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__klient_ko__klien__4222D4EF">
-          <End Role="klient" Type="Self.klient" Multiplicity="0..1" />
+          <End Role="klient" Type="Self.klient" Multiplicity="1" />
           <End Role="klient_konto" Type="Self.klient_konto" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="klient">
@@ -667,39 +733,15 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__koszyk__id_klien__3E52440B">
+        <Association Name="FK__zamowieni__id_kl__3A81B327">
           <End Role="klient" Type="Self.klient" Multiplicity="1" />
-          <End Role="koszyk" Type="Self.koszyk" Multiplicity="*" />
+          <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="klient">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="koszyk">
+            <Dependent Role="zamowienia">
               <PropertyRef Name="id_klienta" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__koszyk__id_zamow__3D5E1FD2">
-          <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="1" />
-          <End Role="koszyk" Type="Self.koszyk" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="zamowienia">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="koszyk">
-              <PropertyRef Name="id_zamowienia" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__koszyk__status_p__3F466844">
-          <End Role="status_platnosci" Type="Self.status_platnosci" Multiplicity="1" />
-          <End Role="koszyk" Type="Self.koszyk" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="status_platnosci">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="koszyk">
-              <PropertyRef Name="status_platnosci" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -716,7 +758,7 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__produkt_o__produ__44FF419A">
-          <End Role="produkt" Type="Self.produkt" Multiplicity="0..1" />
+          <End Role="produkt" Type="Self.produkt" Multiplicity="1" />
           <End Role="produkt_opis" Type="Self.produkt_opis" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="produkt">
@@ -727,7 +769,7 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__zamowieni__produ__32E0915F">
+        <Association Name="FK__zamowieni__produ__38996AB5">
           <End Role="produkt" Type="Self.produkt" Multiplicity="1" />
           <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="*" />
           <ReferentialConstraint>
@@ -739,7 +781,7 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__zdj_produ__produ__38996AB5">
+        <Association Name="FK__zdj_produ__produ__3F466844">
           <End Role="produkt" Type="Self.produkt" Multiplicity="1" />
           <End Role="zdj_produktu" Type="Self.zdj_produktu" Multiplicity="*" />
           <ReferentialConstraint>
@@ -751,27 +793,52 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__zamowieni__statu__3B75D760">
+          <End Role="status_platnosci" Type="Self.status_platnosci" Multiplicity="1" />
+          <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status_platnosci">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="zamowienia">
+              <PropertyRef Name="status_platnosci_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zamowieni__statu__3C69FB99">
+          <End Role="status_zamowienia" Type="Self.status_zamowienia" Multiplicity="1" />
+          <End Role="zamowienia" Type="Self.zamowienia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status_zamowienia">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="zamowienia">
+              <PropertyRef Name="status_zamowienia_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Xkom_ProjektEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="cena" EntityType="Self.cena" />
           <EntitySet Name="ilosc" EntityType="Self.ilosc" />
           <EntitySet Name="kategorie" EntityType="Self.kategorie" />
           <EntitySet Name="klient" EntityType="Self.klient" />
           <EntitySet Name="klient_konto" EntityType="Self.klient_konto" />
-          <EntitySet Name="koszyk" EntityType="Self.koszyk" />
           <EntitySet Name="podkategorie" EntityType="Self.podkategorie" />
           <EntitySet Name="produkt" EntityType="Self.produkt" />
           <EntitySet Name="produkt_opis" EntityType="Self.produkt_opis" />
           <EntitySet Name="status_platnosci" EntityType="Self.status_platnosci" />
+          <EntitySet Name="status_zamowienia" EntityType="Self.status_zamowienia" />
           <EntitySet Name="zamowienia" EntityType="Self.zamowienia" />
           <EntitySet Name="zdj_produktu" EntityType="Self.zdj_produktu" />
           <EntitySet Name="produkt_all" EntityType="Self.produkt_all" />
+          <EntitySet Name="status_koszykow" EntityType="Self.status_koszykow" />
           <EntitySet Name="wartosc_zamowienia" EntityType="Self.wartosc_zamowienia" />
           <EntitySet Name="zamowienie_all" EntityType="Self.zamowienie_all" />
           <AssociationSet Name="FK__cena__produkt_id__300424B4" Association="Self.FK__cena__produkt_id__300424B4">
             <End Role="produkt" EntitySet="produkt" />
             <End Role="cena" EntitySet="cena" />
           </AssociationSet>
-          <AssociationSet Name="FK__zamowieni__cena___33D4B598" Association="Self.FK__zamowieni__cena___33D4B598">
+          <AssociationSet Name="FK__zamowieni__cena___398D8EEE" Association="Self.FK__zamowieni__cena___398D8EEE">
             <End Role="cena" EntitySet="cena" />
             <End Role="zamowienia" EntitySet="zamowienia" />
           </AssociationSet>
@@ -791,17 +858,9 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
             <End Role="klient" EntitySet="klient" />
             <End Role="klient_konto" EntitySet="klient_konto" />
           </AssociationSet>
-          <AssociationSet Name="FK__koszyk__id_klien__3E52440B" Association="Self.FK__koszyk__id_klien__3E52440B">
+          <AssociationSet Name="FK__zamowieni__id_kl__3A81B327" Association="Self.FK__zamowieni__id_kl__3A81B327">
             <End Role="klient" EntitySet="klient" />
-            <End Role="koszyk" EntitySet="koszyk" />
-          </AssociationSet>
-          <AssociationSet Name="FK__koszyk__id_zamow__3D5E1FD2" Association="Self.FK__koszyk__id_zamow__3D5E1FD2">
             <End Role="zamowienia" EntitySet="zamowienia" />
-            <End Role="koszyk" EntitySet="koszyk" />
-          </AssociationSet>
-          <AssociationSet Name="FK__koszyk__status_p__3F466844" Association="Self.FK__koszyk__status_p__3F466844">
-            <End Role="status_platnosci" EntitySet="status_platnosci" />
-            <End Role="koszyk" EntitySet="koszyk" />
           </AssociationSet>
           <AssociationSet Name="FK__produkt__podkate__2A4B4B5E" Association="Self.FK__produkt__podkate__2A4B4B5E">
             <End Role="podkategorie" EntitySet="podkategorie" />
@@ -811,14 +870,30 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
             <End Role="produkt" EntitySet="produkt" />
             <End Role="produkt_opis" EntitySet="produkt_opis" />
           </AssociationSet>
-          <AssociationSet Name="FK__zamowieni__produ__32E0915F" Association="Self.FK__zamowieni__produ__32E0915F">
+          <AssociationSet Name="FK__zamowieni__produ__38996AB5" Association="Self.FK__zamowieni__produ__38996AB5">
             <End Role="produkt" EntitySet="produkt" />
             <End Role="zamowienia" EntitySet="zamowienia" />
           </AssociationSet>
-          <AssociationSet Name="FK__zdj_produ__produ__38996AB5" Association="Self.FK__zdj_produ__produ__38996AB5">
+          <AssociationSet Name="FK__zdj_produ__produ__3F466844" Association="Self.FK__zdj_produ__produ__3F466844">
             <End Role="produkt" EntitySet="produkt" />
             <End Role="zdj_produktu" EntitySet="zdj_produktu" />
           </AssociationSet>
+          <AssociationSet Name="FK__zamowieni__statu__3B75D760" Association="Self.FK__zamowieni__statu__3B75D760">
+            <End Role="status_platnosci" EntitySet="status_platnosci" />
+            <End Role="zamowienia" EntitySet="zamowienia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zamowieni__statu__3C69FB99" Association="Self.FK__zamowieni__statu__3C69FB99">
+            <End Role="status_zamowienia" EntitySet="status_zamowienia" />
+            <End Role="zamowienia" EntitySet="zamowienia" />
+          </AssociationSet>
+          <FunctionImport Name="dodawanie_produktow">
+            <Parameter Name="nazwa_produktu" Mode="In" Type="String" />
+            <Parameter Name="kod_produktu" Mode="In" Type="Decimal" />
+            <Parameter Name="kategoria" Mode="In" Type="String" />
+            <Parameter Name="podkategoria" Mode="In" Type="String" />
+            <Parameter Name="ilosc" Mode="In" Type="Int32" />
+            <Parameter Name="cena" Mode="In" Type="Double" />
+          </FunctionImport>
           <FunctionImport Name="dodawanie_usera" ReturnType="Collection(String)">
             <Parameter Name="nowy_user" Mode="In" Type="String" />
             <Parameter Name="haslo" Mode="In" Type="String" />
@@ -830,6 +905,15 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
             <Parameter Name="kod_pocztowy" Mode="In" Type="String" />
             <Parameter Name="miasto" Mode="In" Type="String" />
             <Parameter Name="telefon" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="dodawanie_zamowienia">
+            <Parameter Name="nazwa_produktu" Mode="In" Type="String" />
+            <Parameter Name="mail" Mode="In" Type="String" />
+            <Parameter Name="ilosc" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="sprawdzanie_konta" ReturnType="Collection(String)">
+            <Parameter Name="mail" Mode="In" Type="String" />
+            <Parameter Name="passwd" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
       </Schema>
@@ -893,16 +977,6 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="koszyk">
-            <EntityTypeMapping TypeName="Xkom_ProjektModel.koszyk">
-              <MappingFragment StoreEntitySet="koszyk">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="id_zamowienia" ColumnName="id_zamowienia" />
-                <ScalarProperty Name="id_klienta" ColumnName="id_klienta" />
-                <ScalarProperty Name="status_platnosci" ColumnName="status_platnosci" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="podkategorie">
             <EntityTypeMapping TypeName="Xkom_ProjektModel.podkategorie">
               <MappingFragment StoreEntitySet="podkategorie">
@@ -940,6 +1014,14 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="status_zamowienia">
+            <EntityTypeMapping TypeName="Xkom_ProjektModel.status_zamowienia">
+              <MappingFragment StoreEntitySet="status_zamowienia">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nazwa_statusu_zamowienia" ColumnName="nazwa_statusu_zamowienia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="zamowienia">
             <EntityTypeMapping TypeName="Xkom_ProjektModel.zamowienia">
               <MappingFragment StoreEntitySet="zamowienia">
@@ -948,6 +1030,9 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
                 <ScalarProperty Name="produkt_id" ColumnName="produkt_id" />
                 <ScalarProperty Name="cena_id" ColumnName="cena_id" />
                 <ScalarProperty Name="ilosc" ColumnName="ilosc" />
+                <ScalarProperty Name="id_klienta" ColumnName="id_klienta" />
+                <ScalarProperty Name="status_platnosci_id" ColumnName="status_platnosci_id" />
+                <ScalarProperty Name="status_zamowienia_id" ColumnName="status_zamowienia_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -973,6 +1058,21 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="status_koszykow">
+            <EntityTypeMapping TypeName="Xkom_ProjektModel.status_koszykow">
+              <MappingFragment StoreEntitySet="status_koszykow">
+                <ScalarProperty Name="mail" ColumnName="mail" />
+                <ScalarProperty Name="telefon" ColumnName="telefon" />
+                <ScalarProperty Name="nazwa_produktu" ColumnName="nazwa_produktu" />
+                <ScalarProperty Name="cena_brutto" ColumnName="cena_brutto" />
+                <ScalarProperty Name="ilosc" ColumnName="ilosc" />
+                <ScalarProperty Name="wartosc" ColumnName="wartosc" />
+                <ScalarProperty Name="status_platnosci" ColumnName="status_platnosci" />
+                <ScalarProperty Name="nazwa_statusu_zamowienia" ColumnName="nazwa_statusu_zamowienia" />
+                <ScalarProperty Name="zamowienie_id" ColumnName="zamowienie_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="wartosc_zamowienia">
             <EntityTypeMapping TypeName="Xkom_ProjektModel.wartosc_zamowienia">
               <MappingFragment StoreEntitySet="wartosc_zamowienia">
@@ -995,7 +1095,10 @@ warning 6002: The table/view 'Xkom_Projekt.dbo.zamowienie_all' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="dodawanie_produktow" FunctionName="Xkom_ProjektModel.Store.dodawanie_produktow" />
           <FunctionImportMapping FunctionImportName="dodawanie_usera" FunctionName="Xkom_ProjektModel.Store.dodawanie_usera" />
+          <FunctionImportMapping FunctionImportName="dodawanie_zamowienia" FunctionName="Xkom_ProjektModel.Store.dodawanie_zamowienia" />
+          <FunctionImportMapping FunctionImportName="sprawdzanie_konta" FunctionName="Xkom_ProjektModel.Store.sprawdzanie_konta" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

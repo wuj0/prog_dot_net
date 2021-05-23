@@ -14,21 +14,19 @@ namespace Xkom.DBXkom
     
     public partial class zamowienia
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public zamowienia()
-        {
-            this.koszyk = new HashSet<koszyk>();
-        }
-    
         public int id { get; set; }
         public int zamowienie_id { get; set; }
         public int produkt_id { get; set; }
         public int cena_id { get; set; }
-        public Nullable<int> ilosc { get; set; }
+        public int ilosc { get; set; }
+        public int id_klienta { get; set; }
+        public int status_platnosci_id { get; set; }
+        public int status_zamowienia_id { get; set; }
     
         public virtual cena cena { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<koszyk> koszyk { get; set; }
+        public virtual klient klient { get; set; }
         public virtual produkt produkt { get; set; }
+        public virtual status_platnosci status_platnosci { get; set; }
+        public virtual status_zamowienia status_zamowienia { get; set; }
     }
 }

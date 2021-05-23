@@ -5,46 +5,78 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Xkom.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="953.628" Width="1557.955" Closed="Window_Closed">
-    
+        Title="MainWindow" Height="953.628" Width="1340.955" Closed="Window_Closed">
 
-        <Grid>
-        <StatusBar x:Name="StatusBar" HorizontalAlignment="Left" Height="43" Margin="1,880,0,0" VerticalAlignment="Top" Width="1530"/>
-        <Button x:Name="SearchBtn" Content="Szukaj" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="76" Click="SearchBtn_Click" Height="19" Grid.Column="2"/>
-        <DataGrid x:Name="dg1" ItemsSource="{DynamicResource QuerryResults}" AutoGenerateColumns="True" HorizontalAlignment="Left" Height="831" Margin="320,0,0,58" VerticalAlignment="Bottom" Width="1211" AutoGeneratingColumn="dg1_AutoGeneratingColumn" IsReadOnly="True" MouseDoubleClick="dg1_MouseDoubleClick" SelectionMode="Single" Grid.Column="2">
-            <DataGrid.Columns >
-                <DataGridTextColumn Header="Nazwa produktu" Binding="{Binding NazwaProduktu}" />
-                <DataGridTextColumn Width="*"  Header="Opis" Binding="{Binding Opis}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style >
-                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Cena" Binding="{Binding Cena}"/>
-                <DataGridTextColumn Header="Kategoria" Binding="{Binding Kategoria}"/>
-            </DataGrid.Columns>
-        </DataGrid>
+    <DockPanel Background="#FFD9E2DF">
+        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,1">
+            <Border BorderBrush="#FFA99090"
+                    BorderThickness="0,0,0,1">
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2.5*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="2.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="C:\temp\szynszyl.png"
+                       Grid.Column="1"
+                       Margin="1,1,1,1"
+                       Height="40px"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+                    <Label Name="LiveTimeLabel"
+                       Grid.Column="2"
+                       FontFamily="Lato"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Content="%TIME%"/>
+                    <Button Grid.Column="3"
+                        Content="Koszyk"
+                            FontFamily="Lato"
+                            Padding="2,2,2,2"
+                        BorderBrush="#FFA99090"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                            Click="btn1_Click"/>
+                    <Button Grid.Column="4"
+                        Content="Wyszukaj"
+                        FontFamily="Lato"
+                            Padding="2,2,2,2"
+                        BorderBrush="#FFA99090"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
+                    <TextBox x:Name="WyszukajTextBox" Grid.Column="5"
+                             Background="#FFD9E2DF"
+                         HorizontalAlignment="Left"
+                             FontFamily="Lato"
+                         MinWidth="100px"
+                         VerticalAlignment="Center"
+                             TextChanged="WyszukajTextBox_TextChanged"/>
+                    <Button x:Name="AddWidnow" Content="Button" HorizontalAlignment="Left" Margin="123,10,0,0" VerticalAlignment="Top" Width="75" Click="AddWidnow_Click"/>
+                </Grid>
+            </Border>
+        </DockPanel>
+        <Label DockPanel.Dock="Bottom"
+               BorderBrush="#FFA99090"
+               BorderThickness="0,1,0,0"
+               FontFamily="Lato"
+               VerticalContentAlignment="Center"
+               HorizontalContentAlignment="Center"
+               Content="Projekt sklep internetowy na bazie produktów z sklepu grupy x-kom. Zrealizował: Szynszyle"/>
 
-
-        <Button x:Name="btn1" Content="Koszyk" HorizontalAlignment="Left" Margin="1,34,0,0" VerticalAlignment="Top" Width="75" Click="btn1_Click" Grid.Column="2" Height="20" />
-        <TextBox x:Name="textbox1" HorizontalAlignment="Left" Height="50" Margin="6,870,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="65" RenderTransformOrigin="0.5,0.5">
-            <TextBox.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.794"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </TextBox.RenderTransform>
-        </TextBox>
-        <TextBox x:Name="WyszukajTextBox" HorizontalAlignment="Left" Height="23" Margin="100,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="2" Text="" TextChanged="WyszukajTextBox_TextChanged"/>
-        <Expander x:Name="Expander" HorizontalAlignment="Left" Height="706" Margin="10,159,0,0" VerticalAlignment="Top" Width="306" RenderTransformOrigin="0.5,0.5" Header="Filtry" Expanded="Expander_Expanded" Collapsed="Expander_Collapsed">
-            <Menu HorizontalAlignment="Left" Height="696" VerticalAlignment="Top" Width="296">
-                <Button Content="ASC"/>
-                <Grid Background="#FFE5E5E5" Height="724" Width="286" VirtualizingStackPanel.IsVirtualizing="False" >
-                    <StackPanel x:Name="st3" HorizontalAlignment="Left" Margin="10,10,0,10" Width="266">
+        <Expander DockPanel.Dock="Left"  
+                  x:Name="Expander" 
+                  HorizontalAlignment="Left" 
+                  VerticalAlignment="Top" 
+                  RenderTransformOrigin="0.5,0.5" 
+                  Header="Filtry" 
+                  FontFamily="Lato">
+            <Menu HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Grid Background="#FFA99090" VirtualizingStackPanel.IsVirtualizing="False" >
+                    <StackPanel x:Name="st3" HorizontalAlignment="Left">
                         <ListBox x:Name="listBoxZone2" HorizontalAlignment="Left" ItemsSource="{DynamicResource TheList}" Height="698" Background="Azure">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -57,17 +89,100 @@
                 </Grid>
             </Menu>
         </Expander>
-        <StackPanel HorizontalAlignment="Left" Height="100" Margin="-211,-222,0,0" VerticalAlignment="Top" Width="100"/>
-        <Button x:Name="NextButton" Content="N" Grid.Column="2" HorizontalAlignment="Left" Margin="288,0,0,0" VerticalAlignment="Top" Width="37" Height="19" Click="NextButton_Click"/>
-        <Button x:Name="PrevButton" Content="P" Grid.Column="2" HorizontalAlignment="Left" Margin="246,0,0,0" VerticalAlignment="Top" Width="37" Height="19" Click="PrevButton_Click" RenderTransformOrigin="0.581,-0.447"/>
-        <Label Content="Ilość produktów:" Grid.Column="2" HorizontalAlignment="Left" Margin="100,38,0,0" VerticalAlignment="Top" Width="106" Height="32"/>
-        <Label x:Name="ileProuktówLabel" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="211,38,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.329,0" Width="72" Height="32"/>
-        <Label Content="Ile stron:" Grid.Column="2" HorizontalAlignment="Left" Margin="100,70,0,0" VerticalAlignment="Top" Width="58"/>
-        <Label x:Name="ileStronLabel" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="173,70,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.342,-0.154" Width="38"/>
-        <Label Content="Strona:" Grid.Column="2" HorizontalAlignment="Left" Margin="330,1,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="KtoraStronaLabel" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="377,0,0,0" VerticalAlignment="Top" Width="94"/>
-        <TextBlock x:Name="WarningTextBlock" FontSize="10" Foreground="DarkRed" HorizontalAlignment="Left" Margin="1,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="54" Width="116" FontWeight="Bold"/>
 
-    </Grid>
-
+        <DockPanel DockPanel.Dock="Right">
+            <Grid DockPanel.Dock="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button x:Name="PrevPage"
+                        BorderBrush="#FFA99090"
+                        VerticalAlignment="Top"
+                         HorizontalAlignment="Left"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Padding="2,2,2,2"
+                        FontFamily="Lato"
+                        Margin="1,1,1,1"
+                        Click="PrevButton_Click"
+                        Content="Poprzednia strona"/>
+                <Button x:Name="NextPage"
+                        Padding="2,2,2,2"
+                        BorderBrush="#FFA99090"
+                        VerticalAlignment="Top"
+                        FontFamily="Lato"
+                         HorizontalAlignment="Left"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Content="Następna strona"
+                        Click="NextButton_Click"
+                        Margin="1,1,1,1"/>
+                <Label x:Name="NumberOfProducts"
+                       FontFamily="Lato"
+                       Padding="2,2,2,2"
+                       VerticalAlignment="Top"
+                         HorizontalAlignment="Left"
+                       Margin="1,1,1,1"
+                       Grid.Row="1"
+                       Grid.Column="1"
+                       Content="Liczba produktów:"/>
+                <Label x:Name="NumberOfPages"
+                       FontFamily="Lato"
+                       Padding="2,2,2,2"
+                       VerticalAlignment="Top"
+                         HorizontalAlignment="Left"
+                       Margin="1,1,1,1"
+                       Grid.Row="2"
+                       Grid.Column="1"
+                       Content="Liczba stron:"/>
+                <TextBox x:Name="NumberOfProductsBox"
+                         Width="50px"
+                         FontFamily="Lato"
+                         Padding="2,2,2,2"
+                         VerticalAlignment="Top"
+                         HorizontalAlignment="Left"
+                         Grid.Row="1"
+                         Grid.Column="2"
+                         Background="#FFD9E2DF"
+                         Margin="1,1,1,1"/>
+                <TextBox x:Name="NumberOfPagesBox"
+                         Width="50px"
+                         FontFamily="Lato"
+                         Padding="2,2,2,2"
+                         VerticalAlignment="Top"
+                         HorizontalAlignment="Left"
+                         Background="#FFD9E2DF"
+                         Grid.Row="2"
+                         Grid.Column="2"
+                         Margin="1,1,1,1"/>
+                <TextBox x:Name="WarningTextBlock"
+                         FontFamily="Lato"
+                         Padding="2,2,2,2"
+                         Background="#FFD9E2DF"
+                         HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="304" BorderThickness="0"/>
+            </Grid>
+            <DataGrid DockPanel.Dock="Top" x:Name="dg1" ItemsSource="{DynamicResource QuerryResults}" AutoGenerateColumns="True" HorizontalAlignment="Left" Height="Auto" Margin="0,0,0,10" VerticalAlignment="Bottom" Width="Auto" AutoGeneratingColumn="dg1_AutoGeneratingColumn" IsReadOnly="True" MouseDoubleClick="dg1_MouseDoubleClick" SelectionMode="Single" Grid.Column="2">
+                <DataGrid.Columns >
+                    <DataGridTextColumn Header="Nazwa produktu" Binding="{Binding NazwaProduktu}" />
+                    <DataGridTextColumn Width="310"  Header="Opis" Binding="{Binding Opis}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style >
+                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Cena" Binding="{Binding Cena}"/>
+                    <DataGridTextColumn Header="Kategoria" Width="Auto" Binding="{Binding Kategoria}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </DockPanel>
 </Window>

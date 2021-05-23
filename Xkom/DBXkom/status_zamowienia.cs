@@ -12,15 +12,18 @@ namespace Xkom.DBXkom
     using System;
     using System.Collections.Generic;
     
-    public partial class koszyk
+    public partial class status_zamowienia
     {
-        public int id { get; set; }
-        public int id_zamowienia { get; set; }
-        public int id_klienta { get; set; }
-        public int status_platnosci { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public status_zamowienia()
+        {
+            this.zamowienia = new HashSet<zamowienia>();
+        }
     
-        public virtual klient klient { get; set; }
-        public virtual zamowienia zamowienia { get; set; }
-        public virtual status_platnosci status_platnosci1 { get; set; }
+        public int id { get; set; }
+        public string nazwa_statusu_zamowienia { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<zamowienia> zamowienia { get; set; }
     }
 }

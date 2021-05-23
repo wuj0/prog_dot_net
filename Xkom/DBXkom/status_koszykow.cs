@@ -12,14 +12,16 @@ namespace Xkom.DBXkom
     using System;
     using System.Collections.Generic;
     
-    public partial class klient_konto
+    public partial class status_koszykow
     {
-        public int id { get; set; }
         public string mail { get; set; }
-        public byte[] haslo { get; set; }
-        public System.Guid sol { get; set; }
-        public int klient_id { get; set; }
-    
-        public virtual klient klient { get; set; }
+        public string telefon { get; set; }
+        public string nazwa_produktu { get; set; }
+        public Nullable<double> cena_brutto { get; set; }
+        public int ilosc { get; set; }
+        public Nullable<double> wartosc { get; set; }
+        public string status_platnosci { get; set; }
+        public string nazwa_statusu_zamowienia { get; set; }
+        public int zamowienie_id { get; set; }
     }
 }

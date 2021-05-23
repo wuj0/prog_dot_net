@@ -15,7 +15,7 @@ namespace Xkom.DBXkom
     public partial class produkt_opis
     {
         public int id { get; set; }
-        public Nullable<int> produkt_id { get; set; }
+        public int produkt_id { get; set; }
         public string opis { get; set; }
     
         public virtual produkt produkt { get; set; }

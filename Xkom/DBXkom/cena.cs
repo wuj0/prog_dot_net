@@ -22,10 +22,10 @@ namespace Xkom.DBXkom
     
         public int id { get; set; }
         public Nullable<int> produkt_id { get; set; }
-        public decimal cena_brutto { get; set; }
+        public double cena_brutto { get; set; }
         public double stawka_vat { get; set; }
-        public Nullable<double> cena_netto { get; set; }
-        public Nullable<double> Wartosc_netto { get; set; }
+        public double cena_netto { get; set; }
+        public double Wartosc_netto { get; set; }
     
         public virtual produkt produkt { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

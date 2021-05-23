@@ -18,7 +18,7 @@ namespace Xkom.DBXkom
         public string Opis_Produktu { get; set; }
         public string Kategoria { get; set; }
         public string Podkategoria { get; set; }
-        public Nullable<decimal> Cena_Brutto { get; set; }
+        public Nullable<double> Cena_Brutto { get; set; }
         public Nullable<double> Cena_Netto { get; set; }
         public Nullable<int> Stawka_Vat { get; set; }
     }

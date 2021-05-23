@@ -88,8 +88,8 @@ namespace Xkom
             CenaTxtBox.Text = threeTables.FirstOrDefault().Cena.ToString();
             iloscProduktu = threeTables.FirstOrDefault().Ilosc;
             IloscTxtBox.Text = iloscProduktu.ToString();
-            txtBoxName.Text = threeTables.FirstOrDefault().NazwaProduktu;
-            txtBoxDesc.Text = threeTables.FirstOrDefault().Opis;
+            NameTB.Text = threeTables.FirstOrDefault().NazwaProduktu;
+            DescTB.Text = threeTables.FirstOrDefault().Opis;
             Uri url = new Uri(threeTables.FirstOrDefault().Zdjecie);
             if (url.IsFile)
             {
@@ -104,23 +104,23 @@ namespace Xkom
             }
         }
 
-        private void dodajButtton_Click(object sender, RoutedEventArgs e)
+        private void AddButtton_Click(object sender, RoutedEventArgs e)
         {
             iloscKupowana++;
             numberOfPcs.Text = iloscKupowana.ToString();
             if (iloscKupowana > 1)
             {
-                odejmijButton.Visibility = Visibility.Visible;
+                SubstractButton.Visibility = Visibility.Visible;
             }
         }
 
-        private void odejmijButton_Click(object sender, RoutedEventArgs e)
+        private void SubstractButton_Click(object sender, RoutedEventArgs e)
         {
             iloscKupowana--;
             numberOfPcs.Text = iloscKupowana.ToString();
             if (iloscKupowana == 1)
             {
-                odejmijButton.Visibility = Visibility.Hidden;
+                SubstractButton.Visibility = Visibility.Hidden;
             }
         }
 

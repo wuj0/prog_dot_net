@@ -31,8 +31,8 @@ namespace Xkom
         private Xkom_ProjektEntities xkom = new Xkom_ProjektEntities();
         private ObservableCollection<KoszykResults> KoszykResults = new ObservableCollection<KoszykResults>();
         
-        private Dictionary<int, double?> wartoscNettoPairs = new Dictionary<int, double?>();
-        private Dictionary<int, decimal> wartoscBruttoPairs = new Dictionary<int, decimal>();
+        private Dictionary<int, double> wartoscNettoPairs = new Dictionary<int, double>();
+        private Dictionary<int, double> wartoscBruttoPairs = new Dictionary<int, double>();
         
         public Koszyk()
         {
@@ -104,7 +104,7 @@ namespace Xkom
             TextNetto.Text = LiczNetto(wartoscNettoPairs).ToString();
             TextBrutto.Text = LiczBrutto(wartoscBruttoPairs).ToString();
         }
-        private double LiczBrutto(Dictionary<int, decimal> keyValuePairs)
+        private double LiczBrutto(Dictionary<int, double> keyValuePairs)
         {
             double result = 0;
             foreach (var item in keyValuePairs)
@@ -115,7 +115,7 @@ namespace Xkom
             return result;
         }
 
-        private double LiczNetto(Dictionary<int, double?> keyValuePairs)
+        private double LiczNetto(Dictionary<int, double> keyValuePairs)
         {
             double result = 0;
             foreach (var item in keyValuePairs)
@@ -134,12 +134,12 @@ namespace Xkom
                 string szukaj = results.NazwaProduktu;
 
                 var bruttoRemove = results.Brutto;
-                decimal actualBrutto = Convert.ToDecimal(TextBrutto.Text);
+                double actualBrutto = Convert.ToDouble(TextBrutto.Text);
                 actualBrutto -= bruttoRemove;
 
                 var nettoRemove = results.Netto;
                 double actualNetto = Convert.ToDouble(TextNetto.Text);
-                actualNetto -= (double)nettoRemove;
+                actualNetto -= nettoRemove;
 
                 TextNetto.Text = actualNetto.ToString();
                 TextBrutto.Text = actualBrutto.ToString();
@@ -172,7 +172,15 @@ namespace Xkom
 
         private void BuyBtn_Click(object sender, RoutedEventArgs e)
         {
-            var numberOfLastOrder = xkom.zamowienia.Max(z => z.zamowienie_id);
+            int numberOfLastOrder = 0;
+            try
+            {
+                numberOfLastOrder = xkom.zamowienia.Max(z => z.zamowienie_id);
+            }
+            catch (InvalidOperationException)
+            {
+                numberOfLastOrder = 0;
+            }
 
             int count = 0;
             foreach (var item in koszyk)

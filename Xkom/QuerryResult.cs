@@ -12,7 +12,7 @@ namespace Xkom
         public string NazwaProduktu { get; set; }
         public string Zdjecie { get; set; }
         public string Opis { get; set; }
-        public decimal Cena { get; set; }
+        public double Cena { get; set; }
         public string Kategoria { get; set; }
 
 

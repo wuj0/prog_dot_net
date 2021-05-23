@@ -18,7 +18,7 @@ namespace Xkom.DBXkom
         public klient()
         {
             this.klient_konto = new HashSet<klient_konto>();
-            this.koszyk = new HashSet<koszyk>();
+            this.zamowienia = new HashSet<zamowienia>();
         }
     
         public int id { get; set; }
@@ -34,6 +34,6 @@ namespace Xkom.DBXkom
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<klient_konto> klient_konto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<koszyk> koszyk { get; set; }
+        public virtual ICollection<zamowienia> zamowienia { get; set; }
     }
 }

@@ -5,30 +5,113 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Xkom"
         mc:Ignorable="d"
-        Title="Koszyk" Height="450" Width="800" Closing="Window_Closing">
-    <Grid>
-        <DataGrid x:Name="dGKoszyk" ItemsSource="{DynamicResource KoszykResults}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="153" Margin="10,44,0,0" VerticalAlignment="Top" Width="599" IsSynchronizedWithCurrentItem="False" SelectedIndex="1">
-            <DataGrid.Columns x:Uid="1" >
-                <DataGridTemplateColumn Header="Delete">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate >
-                            <Button x:Name="DeleteBtn" Content="Delete" Click="Button_Click" Visibility="Visible"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Width="*" Header="Nazwa produktu" Binding="{Binding NazwaProduktu}" />
-                <DataGridTextColumn Header="Netto pcs" Binding="{Binding NettoPcs}" />
-                <DataGridTextColumn Header="Netto" Binding="{Binding Netto}" />
-                <DataGridTextColumn Header="Brutto pcs" Binding="{Binding BruttoPcs}" />
-                <DataGridTextColumn Header="Brutto" Binding="{Binding Brutto}" />
-                <DataGridTextColumn Header="Pcs" Binding="{Binding Pcs}" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <Label x:Name="LabelNetto" Content="Wartość zamówienia netto&#xD;&#xA;" HorizontalAlignment="Left" Margin="375,202,0,0" VerticalAlignment="Top" Width="168" Height="28"/>
-        <Label x:Name="LabelBrutto" Content="Wartość zamówienia brutto&#xA;" HorizontalAlignment="Left" Margin="375,235,0,0" VerticalAlignment="Top" Width="168" Height="28"/>
-        <TextBlock x:Name="TextNetto" HorizontalAlignment="Left" Margin="548,207,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="61" Height="23"><Run Text=""/><LineBreak/><Run/></TextBlock>
-        <TextBlock x:Name="TextBrutto" HorizontalAlignment="Left" Margin="548,240,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="61" Height="23" RenderTransformOrigin="0.516,-0.225"/>
-        <Button x:Name="BuyBtn" Content="Zakup" HorizontalAlignment="Left" Margin="614,47,0,0" VerticalAlignment="Top" Width="75" Click="BuyBtn_Click"/>
+        Title="Koszyk" Height="450" Width="910.714" Closing="Window_Closing">
+    <DockPanel Background="#FFD9E2DF">
+        <Border DockPanel.Dock="Top" BorderBrush="black" BorderThickness="0,0,0,1" Margin="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="C:\temp\szynszyl.png"
+               Grid.Column="1"
+               Margin="1,1,1,1"
+               Height="40px"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+                <Label Name="LiveTimeLabel"
+                       Grid.Column="2"
+                       FontFamily="Lato"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Content="%TIME%"/>
+            </Grid>
+        </Border>
 
-    </Grid>
+        <Label DockPanel.Dock="Bottom"
+               BorderBrush="#FFA99090"
+               BorderThickness="0,1,0,0"
+               FontFamily="Lato"
+               Margin="0,1,0,0"
+               VerticalContentAlignment="Center"
+               HorizontalContentAlignment="Center"
+               Content="Projekt sklep internetowy na bazie produktów z sklepu grupy x-kom. Zrealizował: Szynszyle"/>
+
+        <DockPanel DockPanel.Dock="Top">
+            <DockPanel DockPanel.Dock="Right">
+                <Grid DockPanel.Dock="Top">
+                    <Button x:Name="BuyBtn"
+                        Padding="2,2,2,2"
+                        BorderBrush="#FFA99090"
+                        FontFamily="Lato"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="Zakup"
+                        Margin="1,1,1,1"/>
+                </Grid>
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="brutto"
+                       Grid.Column="0"
+                       FontFamily="Lato"
+                       Padding="2,2,2,2"
+                       VerticalAlignment="Top"
+                         HorizontalAlignment="Left"
+                       Margin="1,1,1,1"
+                       Content="Wartość zamówienia brutto:"/>
+                    <TextBlock x:Name="TextBrutto"
+                       FontFamily="Lato"
+                       Grid.Column="1"
+                       Padding="2,2,2,2"
+                       VerticalAlignment="Top"
+                         HorizontalAlignment="Left"
+                       Margin="1,1,1,1"/>
+                </Grid>
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="netto"
+                       Grid.Column="0"
+                       FontFamily="Lato"
+                       Padding="2,2,2,2"
+                       VerticalAlignment="Top"
+                         HorizontalAlignment="Left"
+                       Margin="1,1,1,1"
+                       Content="Wartość zamówienia netto:"/>
+                    <TextBlock x:Name="TextNetto"
+                       FontFamily="Lato"
+                       Grid.Column="1"
+                       Padding="2,2,2,2"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Left"
+                       Margin="1,1,1,1"/>
+                </Grid>
+                <Grid DockPanel.Dock="Bottom"></Grid>
+            </DockPanel>
+            <DataGrid DockPanel.Dock="Left" x:Name="dGKoszyk" ItemsSource="{DynamicResource KoszykResults}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="153" Margin="10,44,0,0" VerticalAlignment="Top" Width="599" IsSynchronizedWithCurrentItem="False" SelectedIndex="1">
+                <DataGrid.Columns x:Uid="1" >
+                    <DataGridTemplateColumn Header="Delete">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate >
+                                <Button x:Name="DeleteBtn" Content="Delete" Click="Button_Click" Visibility="Visible"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Width="*" Header="Nazwa produktu" Binding="{Binding NazwaProduktu}" />
+                    <DataGridTextColumn Header="Netto pcs" Binding="{Binding NettoPcs}" />
+                    <DataGridTextColumn Header="Netto" Binding="{Binding Netto}" />
+                    <DataGridTextColumn Header="Brutto pcs" Binding="{Binding BruttoPcs}" />
+                    <DataGridTextColumn Header="Brutto" Binding="{Binding Brutto}" />
+                    <DataGridTextColumn Header="Pcs" Binding="{Binding Pcs}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </DockPanel>
 </Window>
